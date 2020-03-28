@@ -11,10 +11,32 @@ namespace Loim
     {
         private Kerdes k;
 
+        internal Kerdes K { get => k; }
+
         public Mentes(Kerdes k)
         {
-            if (!File.Exists())
+            this.k = k;
+            if (!File.Exists("mentes.txt"))
+            {
+                StreamWriter sw = new StreamWriter("mentes.txt", false, Encoding.UTF8);
+                sw.WriteLine(k.Kerdes);
+                sw.Close();
+            }
+            else
+            {
+                File.Delete("mentes.txt");
+                StreamWriter sw = new StreamWriter("mentes.txt", false, Encoding.UTF8);
+                sw.WriteLine(k.Kerdes);
+                sw.Close();
+            }
         }
 
+        public Mentes()
+        {
+            StreamReader sr = new StreamReader("kerdes.txt", Encoding.UTF8);
+            // melyik az a kérdés, ami azonos a többi kérdések közül az egyikkel
+
+            sr.Close();
+        }
     }
 }
