@@ -30,6 +30,7 @@ namespace Loim
             {
                 File.Delete("mentes.txt");
                 StreamWriter sw = new StreamWriter("mentes.txt", false, Encoding.UTF8);
+                sw.WriteLine(j);
                 sw.WriteLine(k.Kerdes);
                 sw.Close();
             }
@@ -70,5 +71,7 @@ namespace Loim
                 Console.WriteLine("Hiba: "+e);
             }           
         }
+
+        
     }
 }
