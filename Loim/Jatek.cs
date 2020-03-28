@@ -19,6 +19,7 @@ namespace Loim
         private int szint;
         private string nev;
         private bool helyesE=true;
+        private int menuPont;
 
         internal Jatekos Jatekos { get => jatekos; set => jatekos = value; }
 
@@ -64,7 +65,6 @@ namespace Loim
 
         private int menu()
         {
-            int menuPont;
             do
             {
                 Console.Clear();
@@ -93,16 +93,21 @@ namespace Loim
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("\n\tKérem válasszon menüpontot: ");
-                menuPont = int.Parse(Console.ReadLine());
-                Console.ResetColor();
-                if (menuPont < 1 || menuPont > 6)
+                try
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Hiba, nem létező menüpontot választott!");
-                    Console.ResetColor();
-                    Console.ReadKey();
+                    menuPont = int.Parse(Console.ReadLine());
+                    if (menuPont < 1 || menuPont > 6)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("\tHiba, nem létező menüpontot választott!");
+                        Console.ResetColor();
+                        Console.ReadKey();
+                    }
                 }
-
+                catch (Exception)
+                {
+                }
+                Console.ResetColor();
             } 
             while (menuPont < 1 || menuPont > 6);
 
@@ -355,7 +360,7 @@ namespace Loim
             do
             {
                 Console.Clear();
-
+                helyesE = true;
                 ks = kerdesek.getVeletlenKerdes(szint);
                 Console.WriteLine(szint + ". kérdés a következő:");
                 Console.WriteLine(ks);
@@ -449,6 +454,7 @@ namespace Loim
                             sw.WriteLine("{0};{1};{2}", ranglista[i].Nev, ranglista[i].Eredmeny, ranglista[i].JatszottMasodperc);
                         }
                         i++;
+
                     }
                     sw.Close();
                 }
@@ -473,15 +479,21 @@ namespace Loim
         private void ranglistaMegjelenites()
         {
             // beolvasás, kilistázás
-
+            Console.Clear();
+            List<string> rang = new List<string>();
             StreamReader r = new StreamReader("ranglista.txt", Encoding.UTF8);
             while (!r.EndOfStream)
             {
-                string[] adatok = r.ReadLine().Split(';');
-                
+                string sor = r.ReadLine();
+                rang.Add(sor);
             }
-
             r.Close();
+            rang.Sort();
+            foreach (var item in rang)
+            {
+                Console.WriteLine(item);
+            }
+            Console.ReadKey();
         }
 
         private void kozonsegSegitseg(Kerdes k)
