@@ -34,9 +34,23 @@ namespace Loim
 
         public Mentes()
         {
-            StreamReader sr = new StreamReader("kerdes.txt", Encoding.UTF8);
+            string kerdes = "";
+            StreamReader sr = new StreamReader("mentes.txt", Encoding.UTF8);
+            while (!sr.EndOfStream)
+            {
+                kerdes = sr.ReadLine();
+            }
+            sr.Close();
+            sr = new StreamReader("kerdes.txt", Encoding.UTF8);
             // melyik az a kérdés, ami azonos a többi kérdések közül az egyikkel
-
+            while (!sr.EndOfStream)
+            {
+                string[] adatok = sr.ReadLine().Split(';');
+                if (kerdes == adatok[1])
+                {
+                    k = new Kerdes(adatok[1], adatok[2], adatok[3], adatok[4], adatok[5], char.Parse(adatok[6]), adatok[7]);
+                }
+            }
             sr.Close();
         }
     }
