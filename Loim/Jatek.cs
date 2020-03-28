@@ -143,6 +143,7 @@ namespace Loim
                     char valasz;
                     string lehetsegesValaszok = "ABCD";
                     string segitsegek = "KFT";
+                    string mentes = "M";
                     do
                     {                       
                         Console.Write("\nKérem adja meg a helyes választ: ");
@@ -176,11 +177,16 @@ namespace Loim
                         {
                             Console.WriteLine("Ezt a segitséget már használta!");
                         }
+                        if (valasz == 'M')
+                        {
+                            new Mentes(k);
+                        }
                         if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz))
                         {
                             Console.WriteLine("Érvénytelen karaktert adott meg!");
                             Console.ReadLine();
-                        }                       
+                        }
+                        
                     }
                     while (!lehetsegesValaszok.Contains(valasz));
 
