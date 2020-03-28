@@ -15,7 +15,6 @@ namespace Loim
         private long jatekIdo;
         private int szint;
         private string nev;
-        
 
         public Jatek()
         {
@@ -35,10 +34,17 @@ namespace Loim
                     case 2: break;
                     case 3: ranglistaMegjelenites(); break;
                     case 4: osszegek();break;
-                    case 5: Console.WriteLine("Köszönjük, hogy részt vett a játékban"); ; break;
+                    case 5:
+                        Beallitasok b = new Beallitasok();
+                        if (b.Cheat)
+                            b.setCheat(false);
+                        else
+                            b.setCheat(true);
+                        break;
+                    case 6: Console.WriteLine("Köszönjük, hogy részt vett a játékban"); ; break;
                 }
             } 
-            while (menuPont != 5);
+            while (menuPont != 6);
         }
 
         private int menu()
@@ -61,13 +67,17 @@ namespace Loim
                 Console.WriteLine("\t2 - Betöltés");
                 Console.WriteLine("\t3 - Dicsőséglista");
                 Console.WriteLine("\t4 - Nyereményfa");
-                Console.WriteLine("\t5 - Kilépés");
+                if (!new Beallitasok().Cheat)
+                    Console.WriteLine("\t5 - Cheat bekapcsolása");
+                else
+                    Console.WriteLine("\t5 - Cheat kikapcsolása");
+                Console.WriteLine("\t6 - Kilépés");
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("\n\tKérem válasszon menüpontot: ");
                 menuPont = int.Parse(Console.ReadLine());
                 Console.ResetColor();
-                if (menuPont < 1 || menuPont > 5)
+                if (menuPont < 1 || menuPont > 6)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Hiba, nem létező menüpontot választott!");
@@ -76,7 +86,7 @@ namespace Loim
                 }
 
             } 
-            while (menuPont < 1 || menuPont > 5);
+            while (menuPont < 1 || menuPont > 6);
 
             return menuPont;
         }

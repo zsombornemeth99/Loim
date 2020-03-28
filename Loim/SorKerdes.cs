@@ -32,7 +32,10 @@ namespace Loim
             s += "\tC - " + this.ValaszC + "\n";
             s += "\tD - " + this.ValaszD + "\n";
 
-            s += "\n\tHelyes sorrend: " + this.helyesSorrend + "\n";
+            if (new Beallitasok().Cheat)
+            {
+                s += "\n\tHelyes sorrend: " + this.helyesSorrend + "\n";
+            }
 
             return s;
         }
