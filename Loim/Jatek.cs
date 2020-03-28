@@ -94,6 +94,20 @@ namespace Loim
             return menuPont;
         }
 
+        private void jatek() // ide jöhetnek a közös elemek
+        {
+
+        }
+
+        private void jatekBetoltes()
+        {
+            Mentes m = new Mentes();
+            this.szint = int.Parse(m.K.NehezsegiSzint);
+            // ide kell a játék
+            // ide jöhet a jatekInditastól különböző rész
+            jatek();
+        }
+
         private void jatekInditasa()
         {
             Console.Clear();

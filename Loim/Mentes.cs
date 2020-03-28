@@ -14,6 +14,7 @@ namespace Loim
         private List<string> kerdesek;
 
         internal Kerdes K { get => k; }
+        internal Jatekos J { get => j; }
 
         public Mentes(Jatekos j, Kerdes k)
         {
