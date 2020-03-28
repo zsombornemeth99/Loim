@@ -13,6 +13,7 @@ namespace Loim
         private Kerdesek kerdesek;
         private Kerdes k;
         private Kerdes ks;
+        private SorKerdes sk;
         private Jatekos jatekos;
         private long jatekIdo;
         private int szint;
@@ -211,6 +212,7 @@ namespace Loim
             {
                 helyesE = false;
                 Console.WriteLine("Sajnáljuk, de rossz választ adott!");
+                Console.WriteLine("A helyes válasz ez lett volna: " + ks.HelyesValasz);
                 switch (szint)
                 {
                     case 1:
@@ -304,6 +306,7 @@ namespace Loim
             {
                 helyesE = false;
                 Console.WriteLine("Sajnáljuk, de rossz választ adott!");
+                Console.WriteLine("A helyes válasz ez lett volna: " + k.HelyesValasz);
                 switch (szint)
                 {
                     case 1:
@@ -364,7 +367,7 @@ namespace Loim
 
         private void sorkerdes()
         {
-            SorKerdes sk = this.sorKerdesek.getVeletlenSorKerdes();
+            sk = this.sorKerdesek.getVeletlenSorKerdes();
 
             Console.WriteLine(sk);
             Console.Write("Kérem adja meg a helyes sorrendet: ");
@@ -373,6 +376,8 @@ namespace Loim
             {
                 kerdes();
             }
+            else
+                Console.WriteLine("A helyes válasz ez lett volna: " + sk.HelyesSorrend);
         }
 
         private void jatekInditasa()
@@ -385,6 +390,7 @@ namespace Loim
             this.jatekIdo = Jatekos.getJatekIdo(DateTime.Now);           
 
             Console.WriteLine("Sajnáljuk a játék végét ért! Ön {0} perc {1} másodpercet játszott!", jatekIdo / 60, jatekIdo % 60);
+
             ranglista();
             Console.ReadKey();
 
@@ -467,6 +473,15 @@ namespace Loim
         private void ranglistaMegjelenites()
         {
             // beolvasás, kilistázás
+
+            StreamReader r = new StreamReader("ranglista.txt", Encoding.UTF8);
+            while (!r.EndOfStream)
+            {
+                string[] adatok = r.ReadLine().Split(';');
+                
+            }
+
+            r.Close();
         }
 
         private void kozonsegSegitseg(Kerdes k)
