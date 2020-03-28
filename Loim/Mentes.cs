@@ -10,6 +10,7 @@ namespace Loim
     class Mentes
     {
         private Kerdes k;
+        private List<string> kerdesek;
 
         internal Kerdes K { get => k; }
 
@@ -35,6 +36,13 @@ namespace Loim
         {
             StreamReader sr = new StreamReader("kerdes.txt", Encoding.UTF8);
             // melyik az a kérdés, ami azonos a többi kérdések közül az egyikkel
+            while (!sr.EndOfStream)
+            {
+                string sor = sr.ReadLine();
+                string[] adatok = sor.Split(';');
+
+                kerdesek.Add(adatok[1]);
+            }
 
             sr.Close();
         }
