@@ -41,7 +41,8 @@ namespace Loim
             while (!sr.EndOfStream)
             {
                 string[] adatok = sr.ReadLine().Split(';');
-                this.j = new Jatekos(adatok[0], bool.Parse(adatok[1]), bool.Parse(adatok[2]), bool.Parse(adatok[3]), long.Parse(adatok[4]));
+
+                this.j = new Jatekos(adatok[0], bool.Parse(adatok[1]), bool.Parse(adatok[2]), bool.Parse(adatok[3]), DateTime.Parse(adatok[4]));
                 kerdes = sr.ReadLine();
             }
             sr.Close();

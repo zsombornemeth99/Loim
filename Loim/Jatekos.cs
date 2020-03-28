@@ -25,13 +25,13 @@ namespace Loim
             this.jatekKezdete = DateTime.Now;
         }
         
-        public Jatekos (string nev, bool telefonosSegitseg, bool felezoSegitseg, bool kozonsegSegitseg, long jatekKezdete)
+        public Jatekos (string nev, bool telefonosSegitseg, bool felezoSegitseg, bool kozonsegSegitseg, DateTime jatekKezdete)
         {
             this.nev = nev;
             this.telefonosSegitseg = telefonosSegitseg;
             this.felezoSegitseg = felezoSegitseg;
             this.kozonsegSegitseg = kozonsegSegitseg;
-            this.jatekKezdete = new DateTime(jatekKezdete);
+            this.jatekKezdete = jatekKezdete;
         }
 
         public string Nev { get => nev; set => nev = value; }
