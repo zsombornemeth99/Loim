@@ -10,6 +10,7 @@ namespace Loim
     class Mentes
     {
         private Kerdes k;
+        private List<string> kerdesek;
 
         internal Kerdes K { get => k; }
 
@@ -33,36 +34,10 @@ namespace Loim
 
         public Mentes()
         {
-            if (File.Exists("mentes.txt"))
-            {
-                string kerdes = "";
-                StreamReader sr = new StreamReader("mentes.txt", Encoding.UTF8);
-                while (!sr.EndOfStream)
-                {
-                    kerdes = sr.ReadLine();
-                }
-                sr.Close();
+            StreamReader sr = new StreamReader("kerdes.txt", Encoding.UTF8);
+            // melyik az a kérdés, ami azonos a többi kérdések közül az egyikkel
 
-                sr = new StreamReader("kerdes.txt", Encoding.UTF8);
-                // melyik az a kérdés, ami azonos a többi kérdések közül az egyikkel
-                while (!sr.EndOfStream)
-                {
-                    string[] adatok = sr.ReadLine().Split(';');
-                    if (kerdes == adatok[1])
-                    {
-                        int nehezseg = int.Parse(adatok[0]);
-                        Kerdes k = new Kerdes(adatok[1], adatok[2], adatok[3], adatok[4], adatok[5],
-                            char.Parse(adatok[6]), adatok[7]);
-                        this.k = k;
-                    }
-                }
-                sr.Close();
-            }
-            else
-            {
-                Console.WriteLine("\tNincs betöltött mentés.");
-                Console.ReadLine();
-            }
+            sr.Close();
         }
     }
 }

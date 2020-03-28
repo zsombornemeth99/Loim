@@ -185,7 +185,7 @@ namespace Loim
                         {
                             new Mentes(k);
                         }
-                        if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz))
+                        if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
                         {
                             Console.WriteLine("Érvénytelen karaktert adott meg!");
                             Console.ReadLine();

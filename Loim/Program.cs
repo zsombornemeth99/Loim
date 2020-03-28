@@ -14,6 +14,7 @@ namespace Loim
         {
             Jatek j = new Jatek();
 
+
             Console.ReadKey();
         }
     }
