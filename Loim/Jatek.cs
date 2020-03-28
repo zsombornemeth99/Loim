@@ -182,7 +182,7 @@ namespace Loim
                         }
                         if (valasz == 'M')
                         {
-                            new Mentes(k);
+                            new Mentes(jatekos,k);
                         }
                         if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
                         {
