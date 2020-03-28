@@ -44,7 +44,7 @@ namespace Loim
                         else
                             b.setCheat(true);
                         break;
-                    case 6: Console.WriteLine("Köszönjük, hogy részt vett a játékban"); ; break;
+                    case 6: Console.WriteLine("Köszönjük, hogy részt vett a játékban"); break;
                 }
             } 
             while (menuPont != 6);
@@ -119,7 +119,10 @@ namespace Loim
             
             if (sk.helyesE(tipp))
             {
-                this.szint = 1;
+                if (new Mentes().K == null)
+                    this.szint = 1;
+                else
+                    this.szint = int.Parse(new Mentes().K.NehezsegiSzint);
                 bool helyesE = true;
                 do
                 {
@@ -182,7 +185,7 @@ namespace Loim
                         }
                         if (valasz == 'M')
                         {
-                            new Mentes(k);
+                            new Mentes(jatekos, k);
                         }
                         if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
                         {
