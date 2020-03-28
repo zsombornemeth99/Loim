@@ -9,6 +9,7 @@ namespace Loim
     class Kerdes : AltalanosKerdes
     {
         private char helyesValasz;
+        private string nehezsegiSzint;
 
         public Kerdes(string kerdes, string valaszA, string valaszB, string valaszC, string valaszD, char helyesValasz, string kategoria)
             : base(kerdes, valaszA, valaszB, valaszC, valaszD, kategoria)
@@ -16,7 +17,15 @@ namespace Loim
             this.HelyesValasz = helyesValasz;
         }
 
+        public Kerdes(string nehezsegiSzint, string kerdes, string valaszA, string valaszB, string valaszC, string valaszD, char helyesValasz, string kategoria)
+                    : base(kerdes, valaszA, valaszB, valaszC, valaszD, kategoria)
+        {
+            this.HelyesValasz = helyesValasz;
+            this.nehezsegiSzint = nehezsegiSzint;
+        }
+
         public char HelyesValasz { get => helyesValasz; set => helyesValasz = value; }
+        public string NehezsegiSzint { get => nehezsegiSzint; }
 
         public bool helyesE(char tipp)
         {

@@ -52,7 +52,7 @@ namespace Loim
                 string[] adatok = sr.ReadLine().Split(';');
                 if (kerdes == adatok[1])
                 {
-                    k = new Kerdes(adatok[1], adatok[2], adatok[3], adatok[4], adatok[5], char.Parse(adatok[6]), adatok[7]);
+                    k = new Kerdes(adatok[0], adatok[1], adatok[2], adatok[3], adatok[4], adatok[5], char.Parse(adatok[6]), adatok[7]);
                 }
             }
             sr.Close();
