@@ -34,7 +34,6 @@ namespace Loim
                     case 2:
                         Kerdes k = new Mentes().K;
                         //itt töltjük be
-
                         break;
                     case 3: ranglistaMegjelenites(); break;
                     case 4: osszegek();break;

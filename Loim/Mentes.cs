@@ -10,16 +10,18 @@ namespace Loim
     class Mentes
     {
         private Kerdes k;
+        private Jatekos j;
         private List<string> kerdesek;
 
         internal Kerdes K { get => k; }
 
-        public Mentes(Kerdes k)
+        public Mentes(Jatekos j, Kerdes k)
         {
             this.k = k;
             if (!File.Exists("mentes.txt"))
             {
                 StreamWriter sw = new StreamWriter("mentes.txt", false, Encoding.UTF8);
+                sw.WriteLine(j);
                 sw.WriteLine(k.Kerdes);
                 sw.Close();
             }
@@ -38,11 +40,13 @@ namespace Loim
             StreamReader sr = new StreamReader("mentes.txt", Encoding.UTF8);
             while (!sr.EndOfStream)
             {
+                string[] adatok = sr.ReadLine().Split(';');
+                this.j = new Jatekos(adatok[0], bool.Parse(adatok[1]), bool.Parse(adatok[2]), bool.Parse(adatok[3]), long.Parse(adatok[4]));
                 kerdes = sr.ReadLine();
             }
             sr.Close();
+
             sr = new StreamReader("kerdes.txt", Encoding.UTF8);
-            // melyik az a kérdés, ami azonos a többi kérdések közül az egyikkel
             while (!sr.EndOfStream)
             {
                 string[] adatok = sr.ReadLine().Split(';');

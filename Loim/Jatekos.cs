@@ -24,6 +24,15 @@ namespace Loim
             this.kozonsegSegitseg = false;
             this.jatekKezdete = DateTime.Now;
         }
+        
+        public Jatekos (string nev, bool telefonosSegitseg, bool felezoSegitseg, bool kozonsegSegitseg, long jatekKezdete)
+        {
+            this.nev = nev;
+            this.telefonosSegitseg = telefonosSegitseg;
+            this.felezoSegitseg = felezoSegitseg;
+            this.kozonsegSegitseg = kozonsegSegitseg;
+            this.jatekKezdete = new DateTime(jatekKezdete);
+        }
 
         public string Nev { get => nev; set => nev = value; }
         public bool TelefonosSegitseg { get => telefonosSegitseg; set => telefonosSegitseg = value; }
@@ -53,7 +62,7 @@ namespace Loim
 
         public override string ToString()
         {
-            return string.Format("{0} - {1} - {2} - {3} - {4}", nev, telefonosSegitseg, felezoSegitseg, kozonsegSegitseg, jatekKezdete);
+            return string.Format("{0};{1};{2};{3};{4}", nev, telefonosSegitseg, felezoSegitseg, kozonsegSegitseg, jatekKezdete);
         }
 
     }
