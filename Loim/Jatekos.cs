@@ -13,8 +13,7 @@ namespace Loim
         private bool felezoSegitseg;
         private bool kozonsegSegitseg;
         private DateTime jatekKezdete;
-        private List<int> elertSzintek;
-        private List<long> elertIdok;
+
 
         public Jatekos(string nev)
         {
@@ -24,8 +23,6 @@ namespace Loim
             this.felezoSegitseg = false;
             this.kozonsegSegitseg = false;
             this.jatekKezdete = DateTime.Now;
-            elertSzintek = new List<int>();
-            elertIdok = new List<long>();
         }
 
         public string Nev { get => nev; set => nev = value; }
@@ -54,7 +51,10 @@ namespace Loim
             return (long)jatekVege.Subtract(this.jatekKezdete).TotalSeconds;
         }
 
-        
+        public override string ToString()
+        {
+            return string.Format("{0} - {1} - {2} - {3} - {4}", nev, telefonosSegitseg, felezoSegitseg, kozonsegSegitseg, jatekKezdete);
+        }
 
     }
 }
