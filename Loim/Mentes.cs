@@ -37,27 +37,38 @@ namespace Loim
 
         public Mentes()
         {
-            string kerdes = "";
-            StreamReader sr = new StreamReader("mentes.txt", Encoding.UTF8);
-            while (!sr.EndOfStream)
+            try
             {
-                string[] adatok = sr.ReadLine().Split(';');
-
-                this.j = new Jatekos(adatok[0], bool.Parse(adatok[1]), bool.Parse(adatok[2]), bool.Parse(adatok[3]), DateTime.Parse(adatok[4]));
-                kerdes = sr.ReadLine();
-            }
-            sr.Close();
-
-            sr = new StreamReader("kerdes.txt", Encoding.UTF8);
-            while (!sr.EndOfStream)
-            {
-                string[] adatok = sr.ReadLine().Split(';');
-                if (kerdes == adatok[1])
+                string kerdes = "";
+                StreamReader sr = new StreamReader("mentes.txt", Encoding.UTF8);
+                while (!sr.EndOfStream)
                 {
-                    k = new Kerdes(adatok[0], adatok[1], adatok[2], adatok[3], adatok[4], adatok[5], char.Parse(adatok[6]), adatok[7]);
+                    string[] adatok = sr.ReadLine().Split(';');
+
+                    this.j = new Jatekos(adatok[0], bool.Parse(adatok[1]), bool.Parse(adatok[2]), bool.Parse(adatok[3]), DateTime.Parse(adatok[4]));
+                    kerdes = sr.ReadLine();
                 }
+                sr.Close();
+
+                sr = new StreamReader("kerdes.txt", Encoding.UTF8);
+                while (!sr.EndOfStream)
+                {
+                    string[] adatok = sr.ReadLine().Split(';');
+                    if (kerdes == adatok[1])
+                    {
+                        k = new Kerdes(adatok[0],adatok[1], adatok[2], adatok[3], adatok[4], adatok[5], char.Parse(adatok[6]), adatok[7]);
+                    }
+                }
+                sr.Close();
             }
-            sr.Close();
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Nincs mentett játéka!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Hiba: "+e);
+            }           
         }
     }
 }

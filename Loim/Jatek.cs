@@ -11,10 +11,12 @@ namespace Loim
     {
         private SorKerdesek sorKerdesek;
         private Kerdesek kerdesek;
+        private Kerdes ks;
         private Jatekos jatekos;
         private long jatekIdo;
         private int szint;
         private string nev;
+        private bool helyesE=true;
 
         public Jatek()
         {
@@ -33,8 +35,14 @@ namespace Loim
                     case 1: this.jatekInditasa(); break;
                     case 2:
                         Kerdes k = new Mentes().K;
-                        //itt töltjük be
-                        break;
+                        if (File.Exists("mentes.txt"))
+                        {
+                            jatekBetoltes(); break;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     case 3: ranglistaMegjelenites(); break;
                     case 4: osszegek();break;
                     case 5:
@@ -67,7 +75,10 @@ namespace Loim
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("\n\t1 - Játék indítása");
-                Console.WriteLine("\t2 - Betöltés");
+                if(File.Exists("mentes.txt"))
+                    Console.WriteLine("\t2 - Mentés betöltése");
+                else
+                    Console.WriteLine("\t2 - Nincs mentett játéka");
                 Console.WriteLine("\t3 - Dicsőséglista");
                 Console.WriteLine("\t4 - Nyereményfa");
                 if (!new Beallitasok().Cheat)
@@ -94,22 +105,9 @@ namespace Loim
             return menuPont;
         }
 
-        private void jatek() // ide jöhetnek a közös elemek
+        private void nevBekeres()
         {
-
-        }
-
-        private void jatekBetoltes()
-        {
-            Mentes m = new Mentes();
-            this.szint = int.Parse(m.K.NehezsegiSzint);
-            // ide kell a játék
-            // ide jöhet a jatekInditastól különböző rész
-            jatek();
-        }
-
-        private void jatekInditasa()
-        {
+           
             Console.Clear();
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -120,138 +118,175 @@ namespace Loim
             Console.Write("\n\n\tKérem adja meg a nevét: ");
             this.nev = Console.ReadLine();
             Console.Clear();
+            jatekos = new Jatekos(nev);
+            szint = 1;
+            Console.Clear();
+        }
 
-            Jatekos jatekos = new Jatekos(nev);
+        private void segitseg() // ide jöhetnek a közös elemek
+        {
+            Console.WriteLine("Elérhető segítségek:");
+            if (!jatekos.KozonsegSegitseg)
+            {
+                Console.WriteLine("\tK - Közönség segítsége");
+            }
+            if (!jatekos.FelezoSegitseg)
+            {
+                Console.WriteLine("\tF - Számítógép segítsége");
+            }
+            if (!jatekos.TelefonosSegitseg)
+            {
+                Console.WriteLine("\tT - Telefon segítsége");
+            }
+        }
 
-            Console.WriteLine("Kedves {0} üdvözlünk a játékban!", jatekos.Nev);
+        private void valaszEllnenorzes()
+        {
+            char valasz;
+            string lehetsegesValaszok = "ABCD";
+            string segitsegek = "KFT";
+            string mentes = "M";
+            do
+            {
+                Console.Write("\nKérem adja meg a helyes választ: ");
+                valasz = char.Parse(Console.ReadLine());
+                valasz = Char.ToUpper(valasz);
 
+                if (valasz == 'K' && !jatekos.KozonsegSegitseg)
+                {
+                    kozonsegSegitseg(ks);
+                    jatekos.kozonsegSegitsegetHasznal();
+                }
+                else if (valasz == 'K' && jatekos.KozonsegSegitseg)
+                {
+                    Console.WriteLine("Ezt a segitséget már használta!");
+                }
+                if (valasz == 'F' && !jatekos.FelezoSegitseg)
+                {
+                    felezoSegitseg(ks);
+                    jatekos.felezoSegitsegetHasznal();
+                }
+                else if (valasz == 'F' && jatekos.FelezoSegitseg)
+                {
+                    Console.WriteLine("Ezt a segitséget már használta!");
+                }
+                if (valasz == 'T' && !jatekos.TelefonosSegitseg)
+                {
+                    telefonosSegitseg(ks);
+                    jatekos.telefonosSegitsegetHasznal();
+                }
+                else if (valasz == 'T' && jatekos.TelefonosSegitseg)
+                {
+                    Console.WriteLine("Ezt a segitséget már használta!");
+                }
+                if (valasz == 'M')
+                {
+                    new Mentes(jatekos, ks);
+                }
+                if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
+                {
+                    Console.WriteLine("Érvénytelen karaktert adott meg!");
+                    Console.ReadLine();
+                }
+            } 
+            while (!lehetsegesValaszok.Contains(valasz));
+
+            if (ks.helyesE(valasz))
+            {
+                szint++;
+                Console.WriteLine("Gratulálunk, sikeresen válaszolt!");
+                if (szint == 15)
+                {
+                    Console.WriteLine("Gratulálunk megnyerte a főnyereményt!!");
+                }
+            }
+            else
+            {
+                helyesE = false;
+                Console.WriteLine("Sajnáljuk, de rossz választ adott!");
+                switch (szint)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5: Console.WriteLine("Az ön nyereménye: 0"); break;
+                    case 6:
+                    case 7:
+                    case 8:
+                    case 9:
+                    case 10: Console.WriteLine("Az ön nyereménye: 250 000 Ft"); break;
+                    case 11:
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15: Console.WriteLine("Az ön nyereménye: 2 000 000 Ft"); break;
+                }
+
+            }
+            Console.ReadKey();
+        }
+
+        private void jatekBetoltes()
+        {
+            Mentes m = new Mentes();
+            jatekos = m.J;
+            this.szint = int.Parse(m.K.NehezsegiSzint);
+            Kerdes k = m.K;
+            Console.Clear();
+            Console.WriteLine(szint + ". kérdés a következő:");
+            Console.WriteLine(k);
+            segitseg();
+            valaszEllnenorzes();
+            Console.ReadKey();
+
+            kerdes();
+            
+            // ide kell a játék
+            // ide jöhet a jatekInditastól különböző rész
+            File.Delete("mentes.txt");
+            Console.ReadKey();
+        }
+
+        private void kerdes()
+        {
+
+            do
+            {
+                Console.Clear();
+
+                ks = kerdesek.getVeletlenKerdes(szint);
+                Console.WriteLine(szint + ". kérdés a következő:");
+                Console.WriteLine(ks);
+                segitseg();
+                valaszEllnenorzes();
+            }
+            while (szint <= 15 && helyesE);
+        }
+
+        private void sorkerdes()
+        {
             SorKerdes sk = this.sorKerdesek.getVeletlenSorKerdes();
 
             Console.WriteLine(sk);
             Console.Write("Kérem adja meg a helyes sorrendet: ");
             string tipp = Console.ReadLine();
-            
             if (sk.helyesE(tipp))
             {
-                this.szint = 1;
-                bool helyesE = true;
-                do
-                {
-                    Console.Clear();
-
-                    Kerdes k = kerdesek.getVeletlenKerdes(szint);
-                    Console.WriteLine(szint + ". kérdés a következő:");
-                    Console.WriteLine(k);
-
-                    Console.WriteLine("Elérhető segítségek:");
-                    if (!jatekos.KozonsegSegitseg)
-                    {
-                        Console.WriteLine("\tK - Közönség segítsége");
-                    }
-                    if (!jatekos.FelezoSegitseg)
-                    {
-                        Console.WriteLine("\tF - Számítógép segítsége");
-                    }
-                    if (!jatekos.TelefonosSegitseg)
-                    {
-                        Console.WriteLine("\tT - Telefon segítsége");
-                    }
-
-                    char valasz;
-                    string lehetsegesValaszok = "ABCD";
-                    string segitsegek = "KFT";
-                    string mentes = "M";
-                    do
-                    {                       
-                        Console.Write("\nKérem adja meg a helyes választ: ");
-                        valasz = char.Parse(Console.ReadLine());
-                        valasz = Char.ToUpper(valasz);
-
-                        if (valasz == 'K' && !jatekos.KozonsegSegitseg)
-                        {
-                            kozonsegSegitseg(k);
-                            jatekos.kozonsegSegitsegetHasznal();
-                        }
-                        else if (valasz == 'K' && jatekos.KozonsegSegitseg)
-                        {
-                            Console.WriteLine("Ezt a segitséget már használta!");
-                        }
-                        if (valasz == 'F' && !jatekos.FelezoSegitseg)
-                        {
-                            felezoSegitseg(k);
-                            jatekos.felezoSegitsegetHasznal();
-                        }
-                        else if (valasz == 'F' && jatekos.FelezoSegitseg)
-                        {
-                            Console.WriteLine("Ezt a segitséget már használta!");
-                        }
-                        if (valasz == 'T' && !jatekos.TelefonosSegitseg)
-                        {
-                            telefonosSegitseg(k);
-                            jatekos.telefonosSegitsegetHasznal();
-                        }
-                        else if (valasz == 'T' && jatekos.TelefonosSegitseg)
-                        {
-                            Console.WriteLine("Ezt a segitséget már használta!");
-                        }
-                        if (valasz == 'M')
-                        {
-                            new Mentes(jatekos,k);
-                        }
-                        if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
-                        {
-                            Console.WriteLine("Érvénytelen karaktert adott meg!");
-                            Console.ReadLine();
-                        }
-                        
-                    }
-                    while (!lehetsegesValaszok.Contains(valasz));
-
-                    if (k.helyesE(valasz))
-                    {
-                        szint++;
-                        Console.WriteLine("Gratulálunk, sikeresen válaszolt!");
-                        if (szint == 15)
-                        {
-                            Console.WriteLine("Gratulálunk megnyerte a főnyereményt!!");
-                        }
-                    }
-                    else
-                    {
-                        helyesE = false;
-                        Console.WriteLine("Sajnáljuk, de rossz választ adott!");
-                        switch (szint)
-                        {
-                            case 1:
-                            case 2:
-                            case 3:
-                            case 4: 
-                            case 5: Console.WriteLine("Az ön nyereménye: 0"); break;
-                            case 6:
-                            case 7:
-                            case 8:
-                            case 9: 
-                            case 10: Console.WriteLine("Az ön nyereménye: 250 000 Ft"); break;
-                            case 11:
-                            case 12:
-                            case 13:
-                            case 14:
-                            case 15: Console.WriteLine("Az ön nyereménye: 2 000 000 Ft"); break;
-                        }
-                        
-                    }
-                    Console.ReadKey();
-
-                } 
-                while (szint <= 15 && helyesE);
-                
+                kerdes();
             }
+        }
 
-            this.jatekIdo = jatekos.getJatekIdo(DateTime.Now);
-            
+        private void jatekInditasa()
+        {
+            nevBekeres();
+            Console.WriteLine("Kedves {0} üdvözlünk a játékban!", jatekos.Nev);
+
+            sorkerdes();
+
+            this.jatekIdo = jatekos.getJatekIdo(DateTime.Now);           
 
             Console.WriteLine("Sajnáljuk a játék végét ért! Ön {0} perc {1} másodpercet játszott!", jatekIdo / 60, jatekIdo % 60);
-            // fájlkezelés ->ranglista
             ranglista();
             Console.ReadKey();
 
