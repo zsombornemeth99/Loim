@@ -12,6 +12,9 @@ namespace Loim
         private SorKerdesek sorKerdesek;
         private Kerdesek kerdesek;
         private Jatekos jatekos;
+        private long jatekIdo;
+        private int szint;
+        private string nev;
         
 
         public Jatek()
@@ -30,7 +33,7 @@ namespace Loim
                 {
                     case 1: this.jatekInditasa(); break;
                     case 2: break;
-                    case 3: break;
+                    case 3: ranglistaMegjelenites(); break;
                     case 4: osszegek();break;
                     case 5: Console.WriteLine("Köszönjük, hogy részt vett a játékban"); ; break;
                 }
@@ -88,7 +91,7 @@ namespace Loim
             Console.WriteLine(s);
             Console.ResetColor();
             Console.Write("\n\n\tKérem adja meg a nevét: ");
-            string nev = Console.ReadLine();
+            this.nev = Console.ReadLine();
             Console.Clear();
 
             Jatekos jatekos = new Jatekos(nev);
@@ -103,7 +106,7 @@ namespace Loim
             
             if (sk.helyesE(tipp))
             {
-                int szint = 1;
+                this.szint = 1;
                 bool helyesE = true;
                 do
                 {
@@ -211,11 +214,12 @@ namespace Loim
                 
             }
 
-            long jatekIdo = jatekos.getJatekIdo(DateTime.Now);
+            this.jatekIdo = jatekos.getJatekIdo(DateTime.Now);
             
 
             Console.WriteLine("Sajnáljuk a játék végét ért! Ön {0} perc {1} másodpercet játszott!", jatekIdo / 60, jatekIdo % 60);
             // fájlkezelés ->ranglista
+            ranglista();
             Console.ReadKey();
 
         }
@@ -224,23 +228,80 @@ namespace Loim
         {
             try
             {
-                List<String> ranglista = new List<String>();
-                StreamReader sr = new StreamReader("ranglista.txt", Encoding.UTF8);
-                while (!sr.EndOfStream)
+                int szintLocal = this.szint - 1;
+                if (File.Exists("ranglista.txt"))
                 {
-                    ranglista.Add(sr.ReadLine());
+                    List<Ranglista> ranglista = new List<Ranglista>();
+                    StreamReader sr = new StreamReader("ranglista.txt", Encoding.UTF8);
+                    while (!sr.EndOfStream)
+                    {
+                        ranglista.Add(new Ranglista(sr.ReadLine()));
+                    }
+                    sr.Close();
+                    File.Delete("ranglista.txt");
+                    bool ujBehelyezve = false;
+                    StreamWriter sw = new StreamWriter("ranglista.txt", false, Encoding.UTF8);
+                    int i = 0;
+                    while (i < ranglista.Count())
+                    {
+                        if (!ujBehelyezve)
+                        {
+                            if (szintLocal > ranglista[i].Eredmeny)
+                            {
+                                sw.WriteLine("{0};{1};{2}", this.nev, szintLocal, this.jatekIdo);
+                                sw.WriteLine("{0};{1};{2}", ranglista[i].Nev, ranglista[i].Eredmeny, ranglista[i].JatszottMasodperc);
+                            }
+                            else if (szintLocal == ranglista[i].Eredmeny)
+                            {
+                                if (this.jatekIdo < ranglista[i].JatszottMasodperc)
+                                {
+                                    sw.WriteLine("{0};{1};{2}", this.nev, szintLocal, this.jatekIdo);
+                                    sw.WriteLine("{0};{1};{2}", ranglista[i].Nev, ranglista[i].Eredmeny, ranglista[i].JatszottMasodperc);
+                                }
+                                else
+                                {
+                                    sw.WriteLine("{0};{1};{2}", ranglista[i].Nev, ranglista[i].Eredmeny, ranglista[i].JatszottMasodperc);
+                                    sw.WriteLine("{0};{1};{2}", this.nev, szintLocal, this.jatekIdo);
+                                }
+                            }
+                            else
+                            {
+                                sw.WriteLine("{0};{1};{2}", ranglista[i].Nev, ranglista[i].Eredmeny, ranglista[i].JatszottMasodperc);
+                                sw.WriteLine("{0};{1};{2}", this.nev, szintLocal, this.jatekIdo);
+                            }
+                            ujBehelyezve = true;
+                            i++;
+                        }
+                        if (i < ranglista.Count())
+                        {
+                            sw.WriteLine("{0};{1};{2}", ranglista[i].Nev, ranglista[i].Eredmeny, ranglista[i].JatszottMasodperc);
+                        }
+                        i++;
+                    }
+                    sw.Close();
                 }
-                sr.Close();
-
+                else
+                {
+                    StreamWriter sw = new StreamWriter("ranglista.txt", false, Encoding.UTF8);
+                    sw.WriteLine("{0};{1};{2}", this.nev, szintLocal, this.jatekIdo);
+                    sw.Close();
+                }
 
             }
-            catch (FileNotFoundException)
+            catch (IOException e)
             {
-                File.Create("ranglista.txt");
-                ranglista();
+                Console.WriteLine(e);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
 
+        private void ranglistaMegjelenites()
+        {
+            // beolvasás, kilistázás
+        }
 
         private void kozonsegSegitseg(Kerdes k)
         {

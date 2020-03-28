@@ -50,6 +50,7 @@
     <Compile Include="Kerdesek.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ranglista.cs" />
     <Compile Include="SorKerdes.cs" />
     <Compile Include="SorKerdesek.cs" />
   </ItemGroup>
