@@ -31,7 +31,11 @@ namespace Loim
                 switch (menuPont)
                 {
                     case 1: this.jatekInditasa(); break;
-                    case 2: break;
+                    case 2:
+                        Kerdes k = new Mentes().K;
+                        //itt töltjük be
+
+                        break;
                     case 3: ranglistaMegjelenites(); break;
                     case 4: osszegek();break;
                     case 5:
