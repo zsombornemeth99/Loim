@@ -49,6 +49,7 @@
     <Compile Include="Jatekos.cs" />
     <Compile Include="Kerdes.cs" />
     <Compile Include="Kerdesek.cs" />
+    <Compile Include="Mentes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ranglista.cs" />
