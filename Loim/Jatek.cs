@@ -202,10 +202,10 @@ namespace Loim
                     Console.WriteLine("Érvénytelen karaktert adott meg!");
                     Console.ReadLine();
                 }
-            } 
+            }
             while (!lehetsegesValaszok.Contains(valasz));
 
-            if (ks.helyesE(valasz) && valasz!='M')
+            if (ks.helyesE(valasz) && valasz != 'M')
             {
                 szint++;
                 Console.WriteLine("Gratulálunk, sikeresen válaszolt!");
@@ -214,7 +214,7 @@ namespace Loim
                     Console.WriteLine("Gratulálunk megnyerte a főnyereményt!!");
                 }
             }
-            else if(!ks.helyesE(valasz) && valasz != 'M')
+            else if (!ks.helyesE(valasz) && valasz != 'M')
             {
                 helyesE = false;
                 Console.WriteLine("Sajnáljuk, de rossz választ adott!");
@@ -236,7 +236,7 @@ namespace Loim
                     case 13:
                     case 14:
                     case 15: Console.WriteLine("Az ön nyereménye: 2 000 000 Ft"); break;
-                }          
+                }
 
             }
             else if (valasz == 'M')
@@ -290,6 +290,10 @@ namespace Loim
                 if (valasz == 'M')
                 {
                     new Mentes(jatekos, k);
+                    Console.WriteLine("Játék mentése...");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("A játék mentésre került");
+                    break;
                 }
                 if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
                 {
@@ -348,9 +352,9 @@ namespace Loim
             Console.WriteLine(k);
             segitseg();
             valaszEllnenorzesBetoltesnel();
-            Console.ReadKey();
+            if(helyesE)
+                kerdes();
 
-            kerdes();
             DateTime jatekKezdete = m.J.JatekKezdete;
             DateTime jatekVege = DateTime.Now;
             this.jatekIdo = (long)jatekVege.Subtract(jatekKezdete).TotalSeconds;
