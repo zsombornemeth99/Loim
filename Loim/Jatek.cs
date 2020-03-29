@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows;
 
 namespace Loim
 {
@@ -95,17 +96,16 @@ namespace Loim
                 Console.Write("\n\tKérem válasszon menüpontot: ");
                 try
                 {
-                    menuPont = int.Parse(Console.ReadLine());
-                    if (menuPont < 1 || menuPont > 6)
+                    while (!int.TryParse(Console.ReadLine(), out menuPont) || menuPont < 1 || menuPont > 6)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("\tHiba, nem létező menüpontot választott!");
-                        Console.ResetColor();
-                        Console.ReadKey();
-                    }
+
+                        MessageBox.Show("Hiba, nem létező menüpontot választott!");
+                        break;
+                    }           
                 }
-                catch (Exception)
+                catch(Exception e)
                 {
+                    Console.WriteLine(e);
                 }
                 Console.ResetColor();
             } 
