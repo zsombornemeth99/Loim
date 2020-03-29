@@ -417,7 +417,7 @@ namespace Loim
                         sor.Add(sr.ReadLine());
                     }
                     sr.Close();
-                    File.Delete("ranglista.txt");
+                    //File.Delete("ranglista.txt");
                     if (sor.Count==1)
                     {
                         rangLista = new List<Ranglista>()
@@ -465,6 +465,54 @@ namespace Loim
                             sw.WriteLine(std.Nev + ";" + std.Eredmeny + ";" + std.JatszottMasodperc);
                         }
                         sw.Close();
+                    }
+                    else
+                    {
+                        rangLista = new List<Ranglista>()
+                        {
+                            new Ranglista(sor[sor.Count-1]),
+                            new Ranglista(this.nev,szintLocal,this.jatekIdo)
+                        };
+                        var result = rangLista.OrderByDescending(s => s.Eredmeny).ThenBy(s => s.JatszottMasodperc);
+                        StreamWriter sw = new StreamWriter("ranglistaIdeiglenes.txt", false, Encoding.UTF8);
+                        foreach (var std in result)
+                        {
+                            sw.WriteLine(std.Nev + ";" + std.Eredmeny + ";" + std.JatszottMasodperc);
+                        }
+                        sw.Close();
+                        List<string> ideiglenesLista = new List<string>();
+                        StreamReader sre = new StreamReader("ranglistaIdeiglenes.txt", Encoding.UTF8);
+                        while (!sre.EndOfStream)
+                        {
+                            ideiglenesLista.Add(sre.ReadLine());
+                        }
+                        
+                        string csere = ideiglenesLista[0];
+                        sor[sor.Count - 1] = csere;
+                        sre.Close();
+                        File.Delete("ranglistaIdeiglenes.txt");
+                        StreamWriter swr = new StreamWriter("ranglista.txt", false, Encoding.UTF8);
+                        foreach (var item in sor)
+                        {
+                            swr.WriteLine(item);
+                        }
+                        swr.Close();
+                        File.Delete("ranglista.txt");
+                        rangLista = new List<Ranglista>()
+                        {
+                            new Ranglista(sor[0]),
+                            new Ranglista(sor[1]),
+                            new Ranglista(sor[2]),
+                            new Ranglista(sor[3]),
+                            new Ranglista(this.nev,szintLocal,this.jatekIdo)
+                        };
+                        var result2 = rangLista.OrderByDescending(r => r.Eredmeny).ThenBy(r => r.JatszottMasodperc);
+                        StreamWriter asd = new StreamWriter("ranglista.txt", false, Encoding.UTF8);
+                        foreach (var std in result2)
+                        {
+                            asd.WriteLine(std.Nev + ";" + std.Eredmeny + ";" + std.JatszottMasodperc);
+                        }
+                        asd.Close();
                     }
                 }
                 else

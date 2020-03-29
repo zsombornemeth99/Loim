@@ -36,7 +36,7 @@ namespace Loim
             }
             catch (Exception e)
             {
-                Console.WriteLine("hiba");
+                Console.WriteLine("hiba"+e);
             }
         }
 
