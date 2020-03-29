@@ -58,7 +58,8 @@ namespace Loim
                         else
                             b.setCheat(true);
                         break;
-                    case 6: Console.WriteLine("Köszönjük, hogy részt vett a játékban"); ; break;
+                    case 6: MessageBox.Show("Köszönjük, hogy részt vett a játékban");
+                            Environment.Exit(0); break;
                 }
             } 
             while (menuPont != 6);
@@ -101,7 +102,7 @@ namespace Loim
 
                         MessageBox.Show("Hiba, nem létező menüpontot választott!");
                         break;
-                    }           
+                    }
                 }
                 catch(Exception e)
                 {
@@ -533,55 +534,82 @@ namespace Loim
             // beolvasás, kilistázás
             Console.Clear();
             List<string> rang = new List<string>();
-            StreamReader r = new StreamReader("ranglista.txt", Encoding.UTF8);
-            while (!r.EndOfStream)
+            try
             {
-                string sor = r.ReadLine();
-                rang.Add(sor);
+                StreamReader r = new StreamReader("ranglista.txt", Encoding.UTF8);
+                while (!r.EndOfStream)
+                {
+                    string sor = r.ReadLine();
+                    rang.Add(sor);
+                }
+                r.Close();
+                string s = "TOP 3";
+                Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine(s);
+                Console.ResetColor();
+                string[] adatok;
+                List<string> nev = new List<string>();
+                List<int> eredmeny = new List<int>();
+                List<long> ido = new List<long>();
+                foreach (var item in rang)
+                {
+                    adatok = item.Split(';');
+                    nev.Add(adatok[0]);
+                    eredmeny.Add(int.Parse(adatok[1]));
+                    ido.Add(long.Parse(adatok[2]));
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    if (i == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("\n\t{0,-1}.hely\tNév: {1,-10}\tSzint: {2,-1}\tIdő: {3,-3}mp.", i + 1, nev[i], eredmeny[i], ido[i]);
+                        Console.ResetColor();
+                    }
+                    try
+                    {
+                        if (i == 1)
+                        {
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine("\n\t{0,-1}.hely\tNév: {1,-10}\tSzint: {2,-1}\tIdő: {3,-3}mp.", i + 1, nev[i], eredmeny[i], ido[i]);
+                            Console.ResetColor();
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    try
+                    {
+                        if (i == 2)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("\n\t{0,-1}.hely\tNév: {1,-10}\tSzint: {2,-1}\tIdő: {3,-3}mp.", i + 1, nev[i], eredmeny[i], ido[i]);
+                            Console.ResetColor();
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    
+                }
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("\n\n\tNyomjon egy ENTER-t a visszalépéshez!");
+                Console.ResetColor();
+                Console.ReadKey();
             }
-            r.Close();
-            string s = "TOP 3";
-            Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(s);
-            Console.ResetColor();
-            string[] adatok;
-            List<string> nev=new List<string>();
-            List<int> eredmeny= new List<int>();
-            List<long> ido=new List<long>();
-            foreach (var item in rang)
+            catch (FileNotFoundException)
             {
-                adatok = item.Split(';');
-                nev.Add(adatok[0]);
-                eredmeny.Add(int.Parse(adatok[1]));
-                ido.Add(long.Parse(adatok[2]));              
+                string s = "TOP 3";
+                Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine(s);
+                Console.ResetColor();
+                MessageBox.Show("Még nem jött létre ranglista!");
             }
-            for (int i = 0; i < 3; i++)
-            {
-                if (i == 0) 
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\n\t{0,-1}.hely\tNév: {1,-10}\tSzint: {2,-1}\tIdő: {3,-3}mp.", i + 1, nev[i], eredmeny[i], ido[i]);
-                    Console.ResetColor();
-                }
-                if (i==1)
-                {
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("\n\t{0,-1}.hely\tNév: {1,-10}\tSzint: {2,-1}\tIdő: {3,-3}mp.", i + 1, nev[i], eredmeny[i], ido[i]);
-                    Console.ResetColor();
-                }
-                if (i==2)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("\n\t{0,-1}.hely\tNév: {1,-10}\tSzint: {2,-1}\tIdő: {3,-3}mp.", i + 1, nev[i], eredmeny[i], ido[i]);
-                    Console.ResetColor();
-                }
-                
-            }
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("\n\n\tNyomjon egy ENTER-t a visszalépéshez!");
-            Console.ResetColor();
-            Console.ReadKey();
+            
         }
 
         private void kozonsegSegitseg(Kerdes k)

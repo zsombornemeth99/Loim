@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Windows;
 
 namespace Loim
 {
@@ -64,7 +65,7 @@ namespace Loim
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("Nincs mentett játéka!");
+                MessageBox.Show("Nincs még mentett játéka!");
             }
             catch (Exception e)
             {
