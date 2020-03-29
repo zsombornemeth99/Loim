@@ -406,57 +406,66 @@ namespace Loim
             try
             {
                 int szintLocal = this.szint - 1;
+                IList<Ranglista> rangLista;
                 if (File.Exists("ranglista.txt"))
                 {
-                    List<Ranglista> ranglista = new List<Ranglista>();
+
+                    List<string> sor = new List<string>();
                     StreamReader sr = new StreamReader("ranglista.txt", Encoding.UTF8);
                     while (!sr.EndOfStream)
                     {
-                        ranglista.Add(new Ranglista(sr.ReadLine()));
+                        sor.Add(sr.ReadLine());
                     }
                     sr.Close();
                     File.Delete("ranglista.txt");
-                    bool ujBehelyezve = false;
-                    StreamWriter sw = new StreamWriter("ranglista.txt", false, Encoding.UTF8);
-                    int i = 0;
-                    while (i < ranglista.Count())
+                    if (sor.Count==1)
                     {
-                        if (!ujBehelyezve)
+                        rangLista = new List<Ranglista>()
                         {
-                            if (szintLocal > ranglista[i].Eredmeny)
-                            {
-                                sw.WriteLine("{0};{1};{2}", this.nev, szintLocal, this.jatekIdo);
-                                sw.WriteLine("{0};{1};{2}", ranglista[i].Nev, ranglista[i].Eredmeny, ranglista[i].JatszottMasodperc);
-                            }
-                            else if (szintLocal == ranglista[i].Eredmeny)
-                            {
-                                if (this.jatekIdo < ranglista[i].JatszottMasodperc)
-                                {
-                                    sw.WriteLine("{0};{1};{2}", this.nev, szintLocal, this.jatekIdo);
-                                    sw.WriteLine("{0};{1};{2}", ranglista[i].Nev, ranglista[i].Eredmeny, ranglista[i].JatszottMasodperc);
-                                }
-                                else
-                                {
-                                    sw.WriteLine("{0};{1};{2}", ranglista[i].Nev, ranglista[i].Eredmeny, ranglista[i].JatszottMasodperc);
-                                    sw.WriteLine("{0};{1};{2}", this.nev, szintLocal, this.jatekIdo);
-                                }
-                            }
-                            else
-                            {
-                                sw.WriteLine("{0};{1};{2}", ranglista[i].Nev, ranglista[i].Eredmeny, ranglista[i].JatszottMasodperc);
-                                sw.WriteLine("{0};{1};{2}", this.nev, szintLocal, this.jatekIdo);
-                            }
-                            ujBehelyezve = true;
-                            i++;
-                        }
-                        if (i < ranglista.Count())
+                            new Ranglista(sor[0]),
+                            new Ranglista(this.nev,szintLocal,this.jatekIdo)
+                        };
+                        var result = rangLista.OrderByDescending(s => s.Eredmeny).ThenBy(s => s.JatszottMasodperc);
+                        StreamWriter sw = new StreamWriter("ranglista.txt", false, Encoding.UTF8);
+                        foreach (var std in result)
                         {
-                            sw.WriteLine("{0};{1};{2}", ranglista[i].Nev, ranglista[i].Eredmeny, ranglista[i].JatszottMasodperc);
+                            sw.WriteLine(std.Nev + ";" + std.Eredmeny + ";" + std.JatszottMasodperc);
                         }
-                        i++;
-
+                        sw.Close();
+                    }     
+                    else if (sor.Count == 2)
+                    {
+                        rangLista = new List<Ranglista>()
+                        {
+                            new Ranglista(sor[0]),
+                            new Ranglista(sor[1]),
+                            new Ranglista(this.nev,szintLocal,this.jatekIdo)
+                        };
+                        var result = rangLista.OrderByDescending(s => s.Eredmeny).ThenBy(s => s.JatszottMasodperc);
+                        StreamWriter sw = new StreamWriter("ranglista.txt", false, Encoding.UTF8);
+                        foreach (var std in result)
+                        {
+                            sw.WriteLine(std.Nev + ";" + std.Eredmeny + ";" + std.JatszottMasodperc);
+                        }
+                        sw.Close();
                     }
-                    sw.Close();
+                    else if (sor.Count == 3)
+                    {
+                        rangLista = new List<Ranglista>()
+                        {
+                            new Ranglista(sor[0]),
+                            new Ranglista(sor[1]),
+                            new Ranglista(sor[2]),
+                            new Ranglista(this.nev,szintLocal,this.jatekIdo)
+                        };
+                        var result = rangLista.OrderByDescending(s => s.Eredmeny).ThenBy(s => s.JatszottMasodperc);
+                        StreamWriter sw = new StreamWriter("ranglista.txt", false, Encoding.UTF8);
+                        foreach (var std in result)
+                        {
+                            sw.WriteLine(std.Nev + ";" + std.Eredmeny + ";" + std.JatszottMasodperc);
+                        }
+                        sw.Close();
+                    }
                 }
                 else
                 {
@@ -464,11 +473,6 @@ namespace Loim
                     sw.WriteLine("{0};{1};{2}", this.nev, szintLocal, this.jatekIdo);
                     sw.Close();
                 }
-
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine(e);
             }
             catch (Exception e)
             {

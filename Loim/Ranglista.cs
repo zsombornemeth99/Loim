@@ -20,6 +20,13 @@ namespace Loim
             this.jatszottMasodperc = long.Parse(adatok[2]);
         }
 
+        public Ranglista(string nev, int eredmeny, long jatszottMasodperc)
+        {
+            this.nev = nev;
+            this.eredmeny = eredmeny;
+            this.jatszottMasodperc = jatszottMasodperc;
+        }
+
         public string Nev { get => nev; set => nev = value; }
         public long JatszottMasodperc { get => jatszottMasodperc; set => jatszottMasodperc = value; }
         public int Eredmeny { get => eredmeny; set => eredmeny = value; }
