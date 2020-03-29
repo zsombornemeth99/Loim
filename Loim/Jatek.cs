@@ -503,7 +503,6 @@ namespace Loim
                             new Ranglista(sor[0]),
                             new Ranglista(sor[1]),
                             new Ranglista(sor[2]),
-                            new Ranglista(sor[3]),
                             new Ranglista(this.nev,szintLocal,this.jatekIdo)
                         };
                         var result2 = rangLista.OrderByDescending(r => r.Eredmeny).ThenBy(r => r.JatszottMasodperc);
