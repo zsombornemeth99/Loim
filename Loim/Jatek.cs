@@ -136,19 +136,21 @@ namespace Loim
 
         private void segitseg()
         {
-            Console.WriteLine("Elérhető segítségek:");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\tElérhető segítségek:");
             if (!Jatekos.KozonsegSegitseg)
             {
-                Console.WriteLine("\tK - Közönség segítsége");
+                Console.WriteLine("\t\tK - Közönség segítsége");
             }
             if (!Jatekos.FelezoSegitseg)
             {
-                Console.WriteLine("\tF - Számítógép segítsége");
+                Console.WriteLine("\t\tF - Számítógép segítsége");
             }
             if (!Jatekos.TelefonosSegitseg)
             {
-                Console.WriteLine("\tT - Telefon segítsége");
+                Console.WriteLine("\t\tT - Telefon segítsége");
             }
+            Console.ResetColor();
         }
 
         private void valaszEllnenorzes()
@@ -159,7 +161,9 @@ namespace Loim
             string mentes = "M";
             do
             {
-                Console.Write("\nKérem adja meg a helyes választ: ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\n\tKérem adja meg a helyes választ: ");
+                Console.ResetColor();
                 valasz = char.Parse(Console.ReadLine());
                 valasz = Char.ToUpper(valasz);
 
@@ -170,7 +174,7 @@ namespace Loim
                 }
                 else if (valasz == 'K' && Jatekos.KozonsegSegitseg)
                 {
-                    Console.WriteLine("Ezt a segitséget már használta!");
+                    MessageBox.Show("Ezt a segitséget már használta!");
                 }
                 if (valasz == 'F' && !Jatekos.FelezoSegitseg)
                 {
@@ -179,7 +183,7 @@ namespace Loim
                 }
                 else if (valasz == 'F' && Jatekos.FelezoSegitseg)
                 {
-                    Console.WriteLine("Ezt a segitséget már használta!");
+                    MessageBox.Show("Ezt a segitséget már használta!");
                 }
                 if (valasz == 'T' && !Jatekos.TelefonosSegitseg)
                 {
@@ -188,19 +192,19 @@ namespace Loim
                 }
                 else if (valasz == 'T' && Jatekos.TelefonosSegitseg)
                 {
-                    Console.WriteLine("Ezt a segitséget már használta!");
+                    MessageBox.Show("Ezt a segitséget már használta!");
                 }
                 if (valasz == 'M')
                 {
                     new Mentes(Jatekos, ks);
-                    Console.WriteLine("Játék mentése...");
+                    Console.WriteLine("\tJáték mentése...");
                     System.Threading.Thread.Sleep(1000);
-                    Console.WriteLine("A játék mentésre került");
+                    Console.WriteLine("\tA játék mentésre került");
                     break;
                 }
                 if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
                 {
-                    Console.WriteLine("Érvénytelen karaktert adott meg!");
+                    MessageBox.Show("Érvénytelen karaktert adott meg!");
                     Console.ReadLine();
                 }
             }
@@ -209,40 +213,45 @@ namespace Loim
             if (ks.helyesE(valasz) && valasz != 'M')
             {
                 szint++;
-                Console.WriteLine("Gratulálunk, sikeresen válaszolt!");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
                 if (szint == 15)
                 {
-                    Console.WriteLine("Gratulálunk megnyerte a főnyereményt!!");
+                    Console.WriteLine("\tGratulálunk megnyerte a főnyereményt!!");
                 }
+                Console.ResetColor();
             }
             else if (!ks.helyesE(valasz) && valasz != 'M')
             {
                 helyesE = false;
-                Console.WriteLine("Sajnáljuk, de rossz választ adott!");
-                Console.WriteLine("A helyes válasz ez lett volna: " + ks.HelyesValasz);
+                Console.ForegroundColor = ConsoleColor.Red;
+                MessageBox.Show("\tSajnáljuk, de rossz választ adott!");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\n\tA helyes válasz ez lett volna: " + ks.HelyesValasz);
                 switch (szint)
                 {
                     case 1:
                     case 2:
                     case 3:
                     case 4:
-                    case 5: Console.WriteLine("Az ön nyereménye: 0"); break;
+                    case 5: Console.WriteLine("\n\tAz ön nyereménye: 0"); break;
                     case 6:
                     case 7:
                     case 8:
                     case 9:
-                    case 10: Console.WriteLine("Az ön nyereménye: 250 000 Ft"); break;
+                    case 10: Console.WriteLine("\n\tAz ön nyereménye: 250 000 Ft"); break;
                     case 11:
                     case 12:
                     case 13:
                     case 14:
-                    case 15: Console.WriteLine("Az ön nyereménye: 2 000 000 Ft"); break;
+                    case 15: Console.WriteLine("\n\tAz ön nyereménye: 2 000 000 Ft"); break;
                 }
-
+                Console.ResetColor();
             }
             else if (valasz == 'M')
             {
-                Console.WriteLine("Nyomjon egy ENTER-t a kilépéshez!");
+                Console.WriteLine("\n\tNyomjon egy ENTER-t a kilépéshez!");
                 Console.ReadKey();
                 Environment.Exit(0);
             }
@@ -257,87 +266,101 @@ namespace Loim
             string mentes = "M";
             do
             {
-                Console.Write("\nKérem adja meg a helyes választ: ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("\n\tKérem adja meg a helyes választ: ");
+                Console.ResetColor();
                 valasz = char.Parse(Console.ReadLine());
                 valasz = Char.ToUpper(valasz);
 
                 if (valasz == 'K' && !Jatekos.KozonsegSegitseg)
                 {
                     kozonsegSegitseg(k);
-                    jatekos.kozonsegSegitsegetHasznal();
+                    Jatekos.kozonsegSegitsegetHasznal();
                 }
-                else if (valasz == 'K' && jatekos.KozonsegSegitseg)
+                else if (valasz == 'K' && Jatekos.KozonsegSegitseg)
                 {
-                    Console.WriteLine("Ezt a segitséget már használta!");
+                    MessageBox.Show("Ezt a segitséget már használta!");
                 }
-                if (valasz == 'F' && !jatekos.FelezoSegitseg)
+                if (valasz == 'F' && !Jatekos.FelezoSegitseg)
                 {
                     felezoSegitseg(k);
-                    jatekos.felezoSegitsegetHasznal();
+                    Jatekos.felezoSegitsegetHasznal();
                 }
-                else if (valasz == 'F' && jatekos.FelezoSegitseg)
+                else if (valasz == 'F' && Jatekos.FelezoSegitseg)
                 {
-                    Console.WriteLine("Ezt a segitséget már használta!");
+                    MessageBox.Show("Ezt a segitséget már használta!");
                 }
-                if (valasz == 'T' && !jatekos.TelefonosSegitseg)
+                if (valasz == 'T' && !Jatekos.TelefonosSegitseg)
                 {
                     telefonosSegitseg(k);
-                    jatekos.telefonosSegitsegetHasznal();
+                    Jatekos.telefonosSegitsegetHasznal();
                 }
-                else if (valasz == 'T' && jatekos.TelefonosSegitseg)
+                else if (valasz == 'T' && Jatekos.TelefonosSegitseg)
                 {
-                    Console.WriteLine("Ezt a segitséget már használta!");
+                    MessageBox.Show("Ezt a segitséget már használta!");
                 }
                 if (valasz == 'M')
                 {
-                    new Mentes(jatekos, k);
-                    Console.WriteLine("Játék mentése...");
+                    new Mentes(Jatekos, k);
+                    Console.WriteLine("\tJáték mentése...");
                     System.Threading.Thread.Sleep(1000);
-                    Console.WriteLine("A játék mentésre került");
+                    Console.WriteLine("\tA játék mentésre került");
                     break;
                 }
                 if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
                 {
-                    Console.WriteLine("Érvénytelen karaktert adott meg!");
+                    MessageBox.Show("Érvénytelen karaktert adott meg!");
                     Console.ReadLine();
                 }
             }
             while (!lehetsegesValaszok.Contains(valasz));
 
-            if (k.helyesE(valasz))
+            if (k.helyesE(valasz) && valasz != 'M')
             {
                 szint++;
-                Console.WriteLine("Gratulálunk, sikeresen válaszolt!");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
                 if (szint == 15)
                 {
-                    Console.WriteLine("Gratulálunk megnyerte a főnyereményt!!");
+                    Console.WriteLine("\tGratulálunk megnyerte a főnyereményt!!");
                 }
+                Console.ResetColor();
             }
-            else
+            else if (!k.helyesE(valasz) && valasz != 'M')
             {
                 helyesE = false;
-                Console.WriteLine("Sajnáljuk, de rossz választ adott!");
-                Console.WriteLine("A helyes válasz ez lett volna: " + k.HelyesValasz);
+                Console.ForegroundColor = ConsoleColor.Red;
+                MessageBox.Show("\tSajnáljuk, de rossz választ adott!");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\n\tA helyes válasz ez lett volna: " + k.HelyesValasz);
                 switch (szint)
                 {
                     case 1:
                     case 2:
                     case 3:
                     case 4:
-                    case 5: Console.WriteLine("Az ön nyereménye: 0"); break;
+                    case 5: Console.WriteLine("\n\tAz ön nyereménye: 0"); break;
                     case 6:
                     case 7:
                     case 8:
                     case 9:
-                    case 10: Console.WriteLine("Az ön nyereménye: 250 000 Ft"); break;
+                    case 10: Console.WriteLine("\n\tAz ön nyereménye: 250 000 Ft"); break;
                     case 11:
                     case 12:
                     case 13:
                     case 14:
-                    case 15: Console.WriteLine("Az ön nyereménye: 2 000 000 Ft"); break;
+                    case 15: Console.WriteLine("\n\tAz ön nyereménye: 2 000 000 Ft"); break;
                 }
-
+                Console.ResetColor();
             }
+            else if (valasz == 'M')
+            {
+                Console.WriteLine("\n\tNyomjon egy ENTER-t a kilépéshez!");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+            Console.ReadKey();
         }
 
         private void jatekBetoltes()
@@ -349,8 +372,19 @@ namespace Loim
             
             k = m.K;
             Console.Clear();
-            Console.WriteLine(szint + ". kérdés a következő:");
-            Console.WriteLine(k);
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\t{0}. kérdés - Témakör: {1}", this.szint, k.getKerdesKategoria());
+            Console.WriteLine();
+            Console.SetCursorPosition((Console.WindowWidth - k.getKerdes().Length) / 2, Console.CursorTop);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(k.getKerdes());
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n");
+            Console.WriteLine(k.getKerdesValaszok());
+            Console.ResetColor();
+            Console.WriteLine();
+
             segitseg();
             valaszEllnenorzesBetoltesnel();
             if(helyesE)
@@ -374,10 +408,24 @@ namespace Loim
                 Console.Clear();
                 helyesE = true;
                 ks = kerdesek.getVeletlenKerdes(szint);
-                Console.WriteLine(szint + ". kérdés a következő:");
-                Console.WriteLine(ks);
+               
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("\t{0}. kérdés - Témakör: {1}",this.szint, ks.getKerdesKategoria());
+                Console.WriteLine();
+                Console.SetCursorPosition((Console.WindowWidth - ks.getKerdes().Length) / 2, Console.CursorTop);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(ks.getKerdes());
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("\n");
+                Console.WriteLine(ks.getKerdesValaszok());
+                Console.ResetColor();
+                Console.WriteLine();
+
                 segitseg();
+      
                 valaszEllnenorzes();
+               
             }
             while (szint <= 15 && helyesE);
         }

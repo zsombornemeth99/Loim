@@ -32,16 +32,25 @@ namespace Loim
             return char.ToUpper(tipp).Equals(this.helyesValasz);
         }
 
-        public override string ToString()
+        public string getKerdes()
         {
-            string s = string.Format("[{0}] - {1}\n\n", this.Kategoria, this.Kerdes);
+            return this.Kerdes;
+        }
 
-            s += "\tA - " + this.ValaszA + "\n";
+        public string getKerdesKategoria()
+        {
+            return this.Kategoria;
+        }
+
+        public string getKerdesValaszok()
+        {
+            
+            string s = "\tA - " + this.ValaszA + "\n";
             s += "\tB - " + this.ValaszB + "\n";
             s += "\tC - " + this.ValaszC + "\n";
             s += "\tD - " + this.ValaszD + "\n";
-            
-            s += "\n\tHelyes válasz: " + this.helyesValasz + "\n";
+            if (new Beallitasok().Cheat)
+                s += "\n\tHelyes válasz: " + this.helyesValasz + "\n";
 
             return s;
         }
