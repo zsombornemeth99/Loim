@@ -22,6 +22,7 @@ namespace Loim
         private string nev;
         private bool helyesE=true;
         private int menuPont;
+        private char valasz;
 
         internal Jatekos Jatekos { get => jatekos; set => jatekos = value; }
        
@@ -205,7 +206,7 @@ namespace Loim
                 if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
                 {
                     MessageBox.Show("Érvénytelen karaktert adott meg!");
-                    Console.ReadLine();
+                    
                 }
             }
             while (!lehetsegesValaszok.Contains(valasz));
@@ -257,7 +258,6 @@ namespace Loim
             }
             Console.ReadKey();
         }
-
         public void valaszEllnenorzesBetoltesnel()
         {
             char valasz;
@@ -310,7 +310,6 @@ namespace Loim
                 if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
                 {
                     MessageBox.Show("Érvénytelen karaktert adott meg!");
-                    Console.ReadLine();
                 }
             }
             while (!lehetsegesValaszok.Contains(valasz));
