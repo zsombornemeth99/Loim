@@ -23,13 +23,11 @@ namespace Loim
         private int menuPont;
 
         internal Jatekos Jatekos { get => jatekos; set => jatekos = value; }
-
+       
         public Jatek()
         {
             this.sorKerdesek = new SorKerdesek("sorkerdes.txt");
             this.kerdesek = new Kerdesek("kerdes.txt");
-
-            //általános tájékoztató
 
             int menuPont;
             do
@@ -95,6 +93,7 @@ namespace Loim
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("\n\tKérem válasszon menüpontot: ");
+                Console.ResetColor();
                 try
                 {
                     while (!int.TryParse(Console.ReadLine(), out menuPont) || menuPont < 1 || menuPont > 6)
@@ -108,7 +107,6 @@ namespace Loim
                 {
                     Console.WriteLine(e);
                 }
-                Console.ResetColor();
             } 
             while (menuPont < 1 || menuPont > 6);
 
@@ -125,7 +123,9 @@ namespace Loim
             Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
             Console.WriteLine(s);
             Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("\n\n\tKérem adja meg a nevét: ");
+            Console.ResetColor();
             this.nev = Console.ReadLine();
             Console.Clear();
             Jatekos = new Jatekos(nev);
@@ -358,6 +358,9 @@ namespace Loim
             DateTime jatekKezdete = m.J.JatekKezdete;
             DateTime jatekVege = DateTime.Now;
             this.jatekIdo = (long)jatekVege.Subtract(jatekKezdete).TotalSeconds;
+
+            Console.WriteLine("Sajnáljuk a játék végét ért! Ön {0} perc {1} másodpercet játszott!", jatekIdo / 60, jatekIdo % 60);
+
             ranglista();
             File.Delete("mentes.txt");
             Console.ReadKey();
@@ -396,8 +399,8 @@ namespace Loim
         private void jatekInditasa()
         {
             nevBekeres();
-            Console.WriteLine("Kedves {0} üdvözlünk a játékban!", Jatekos.Nev);
-
+            udvozloUzenet();
+            Console.Clear();
             sorkerdes();
 
             this.jatekIdo = Jatekos.getJatekIdo(DateTime.Now);           
@@ -876,8 +879,39 @@ namespace Loim
             Console.WriteLine("\t14 - {0,-8} Ft",25000000);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("\t15 - {0,-8} Ft",50000000);
-            Console.ResetColor();            
+            Console.ResetColor();
 
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("\n\n\tNyomjon egy ENTER-t a visszalépéshez!");
+            Console.ResetColor();
+
+            Console.ReadKey();
+        }
+
+        private void udvozloUzenet()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            string s = "Üdvözöm kedves "+Jatekos.Nev+" a LEGYEN ÖN IS MILLIOMOS játékban!";
+            Console.WriteLine("\n\n\n");
+            Console.SetCursorPosition((Console.WindowWidth - s.Length) / 5, Console.CursorTop);
+            Console.WriteLine(s);
+            Console.ResetColor();
+            string ss = "A játék következőképp fog zajlani:";
+            Console.WriteLine();
+            Console.SetCursorPosition((Console.WindowWidth - s.Length) / 10, Console.CursorTop);
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.WriteLine(ss);
+            Console.WriteLine("\t\tA játékot egy sorkéréssel fogja kezdeni, majd ha helyesen sorrendbe" +
+                " rakjla a válaszokat\n" +
+                "\t\tbekerül a játékba.\n\t\tEzek után 15 kérdés áll ön elött, melyek megválaszolásáért " +
+                "egyre nagyobb nyereményre thete szert.\n" +
+                "\t\tHa minden kérdést helyesen megválaszol 50 millió játékpénzt nyert.\n" +
+                "\t\tAz 5. és a 10. kérdések megválaszolását követően biztos nyereménnyel fog távozni.");
+            Console.WriteLine();
+            string sss = "Ha a szabályokat elolvasta, akkor egy ENTER-el elindíthatja a játékot!";
+            Console.SetCursorPosition((Console.WindowWidth - s.Length) / 10, Console.CursorTop);
+            Console.Write(sss);
+            Console.ResetColor();
             Console.ReadKey();
         }
 
