@@ -23,20 +23,31 @@ namespace Loim
             return tipp.ToUpper().Equals(this.helyesSorrend);
         }
 
-        public override string ToString()
+        public string getSorKerdes()
         {
-            string s = string.Format("[{0}] - {1}\n\n", this.Kategoria, this.Kerdes);
+            return this.Kerdes;
+        }
 
-            s += "\tA - " + this.ValaszA + "\n";
+        public string getSorKerdesKategoria()
+        {
+            return this.Kategoria;
+        }
+
+        public string getHelyesSorrend()
+        {
+            return this.helyesSorrend;
+        }
+
+        public string getSorKerdesValaszok()
+        {
+            string s = "\tA - " + this.ValaszA + "\n";
             s += "\tB - " + this.ValaszB + "\n";
             s += "\tC - " + this.ValaszC + "\n";
             s += "\tD - " + this.ValaszD + "\n";
-
             if (new Beallitasok().Cheat)
             {
                 s += "\n\tHelyes sorrend: " + this.helyesSorrend + "\n";
             }
-
             return s;
         }
     }

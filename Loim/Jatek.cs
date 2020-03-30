@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Loim
 {
@@ -384,16 +385,43 @@ namespace Loim
         private void sorkerdes()
         {
             sk = this.sorKerdesek.getVeletlenSorKerdes();
-
-            Console.WriteLine(sk);
-            Console.Write("Kérem adja meg a helyes sorrendet: ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\tSorkérdés - Témakör: "+sk.getSorKerdesKategoria());
+            Console.WriteLine();
+            Console.SetCursorPosition((Console.WindowWidth - sk.getSorKerdes().Length) / 2, Console.CursorTop);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(sk.getSorKerdes());
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n");
+            Console.WriteLine(sk.getSorKerdesValaszok());
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("\tKérem adja meg a helyes sorrendet: ");
+            Console.ResetColor();
             string tipp = Console.ReadLine();
             if (sk.helyesE(tipp))
             {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine();
+                Console.WriteLine("\tGratulálunk, helyes a válasz!");
+                Console.Write("\n\tNyomjon egy ENTER-t a folytatáshoz!");
+                Console.ResetColor();
+                Console.ReadKey();
                 kerdes();
             }
             else
-                Console.WriteLine("A helyes válasz ez lett volna: " + sk.HelyesSorrend);
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+
+                MessageBox.Show("Rossz válasz!");
+                Console.WriteLine();
+                Console.WriteLine("\tA helyes válasz ez lett volna: " + sk.HelyesSorrend);
+
+                Console.ResetColor();
+                Console.ReadLine();
+            }
         }
 
         private void jatekInditasa()
