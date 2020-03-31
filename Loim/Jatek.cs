@@ -23,6 +23,7 @@ namespace Loim
         private bool helyesE=true;
         private int menuPont;
         private char valasz;
+        private string tipp;
 
         internal Jatekos Jatekos { get => jatekos; set => jatekos = value; }
        
@@ -467,10 +468,28 @@ namespace Loim
             Console.WriteLine(sk.getSorKerdesValaszok());
             Console.ResetColor();
             Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("\tKérem adja meg a helyes sorrendet: ");
-            Console.ResetColor();
-            string tipp = Console.ReadLine();
+            string enter = "";
+            do
+            {
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("\tKérem adja meg a helyes sorrendet: ");
+                    Console.ResetColor();
+                    tipp = Console.ReadLine().ToUpper();
+                    while (tipp.Length!=4 || tipp==enter)
+                    {
+                        MessageBox.Show("Hiba, érvénytelen bevitel!");
+                        break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            } 
+            while (tipp.Length!=4 || tipp == enter);
+
             if (sk.helyesE(tipp))
             {
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
