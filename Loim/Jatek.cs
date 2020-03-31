@@ -117,19 +117,27 @@ namespace Loim
         }
 
         private void nevBekeres()
-        {
-           
-            Console.Clear();
-            Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            string s = "LEGYEN ÖN IS MILLIOMOS!";
-            Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
-            Console.WriteLine(s);
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write("\n\n\tKérem adja meg a nevét: ");
-            Console.ResetColor();
-            this.nev = Console.ReadLine();
+        {         
+            do
+            {
+                Console.Clear();
+                Console.WriteLine();
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                string s = "LEGYEN ÖN IS MILLIOMOS!";
+                Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
+                Console.WriteLine(s);
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write("\n\n\tKérem adja meg a nevét: ");
+                Console.ResetColor();
+                this.nev = Console.ReadLine();
+                if (this.nev.Length < 3 || this.nev.Length > 10)
+                {
+                    MessageBox.Show("3 és 10 karakter között legyen a név!");
+
+                }
+            }
+            while (this.nev.Length < 3 || this.nev.Length > 10);
             Console.Clear();
             Jatekos = new Jatekos(nev);
             szint = 1;
@@ -304,7 +312,7 @@ namespace Loim
         {
             string lehetsegesValaszok = "ABCD";
             string segitsegek = "KFT";
-            string mentes = "M";
+            string mentes = "MN";
             do
             {
                 try
@@ -518,30 +526,32 @@ namespace Loim
         }
 
         private void sorkerdes()
-        {
-            sk = this.sorKerdesek.getVeletlenSorKerdes();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("\tSorkérdés - Témakör: "+sk.getSorKerdesKategoria());
-            Console.WriteLine();
-            Console.SetCursorPosition((Console.WindowWidth - sk.getSorKerdes().Length) / 2, Console.CursorTop);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(sk.getSorKerdes());
-            Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("\n");
-            Console.WriteLine(sk.getSorKerdesValaszok());
-            Console.ResetColor();
-            Console.WriteLine();
-            string enter = "";
+        {            
             do
             {
+                
                 try
                 {
+                    Console.Clear();
+                    sk = this.sorKerdesek.getVeletlenSorKerdes();
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine("\tSorkérdés - Témakör: " + sk.getSorKerdesKategoria());
+                    Console.WriteLine();
+                    Console.SetCursorPosition((Console.WindowWidth - sk.getSorKerdes().Length) / 2, Console.CursorTop);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(sk.getSorKerdes());
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("\n");
+                    Console.WriteLine(sk.getSorKerdesValaszok());
+                    Console.ResetColor();
+                    Console.WriteLine();
+                    
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("\tKérem adja meg a helyes sorrendet: ");
                     Console.ResetColor();
                     tipp = Console.ReadLine().ToUpper();
-                    while (tipp.Length!=4 || tipp==enter)
+                    while (tipp.Length!=4 || tipp.Length==1)
                     {
                         MessageBox.Show("Hiba, érvénytelen bevitel!");
                         break;
@@ -552,7 +562,7 @@ namespace Loim
                     Console.WriteLine(e);
                 }
             } 
-            while (tipp.Length!=4 || tipp == enter);
+            while (tipp.Length!=4 || tipp.Length==1);
 
             if (sk.helyesE(tipp))
             {
