@@ -469,6 +469,7 @@ namespace Loim
             Console.WriteLine();
 
             segitseg();
+            megallasMentesMegjelenites();
             valaszEllnenorzesBetoltesnel();
             if(helyesE)
                 kerdes();
@@ -506,7 +507,10 @@ namespace Loim
                 Console.WriteLine();
 
                 segitseg();
-      
+
+                megallasMentesMegjelenites();
+
+
                 valaszEllnenorzes();
                
             }
@@ -1092,5 +1096,13 @@ namespace Loim
             Console.ReadKey();
         }
 
+        private void megallasMentesMegjelenites()
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("\n\tTovábbi lehetőségek:");
+            Console.WriteLine("\t\tM - Mentés");
+            Console.WriteLine("\t\tN - Megállás, nyeremény elvitele");
+            Console.ResetColor();
+        }
     }
 }
