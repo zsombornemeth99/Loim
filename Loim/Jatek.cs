@@ -356,7 +356,6 @@ namespace Loim
 
             if (ks.helyesE(valasz) && valasz != 'M' && valasz != 'N')
             {
-                szint++;
                 for (int i = 0; i < 11; i++)
                 {
                     ClearLastLine();
@@ -383,6 +382,7 @@ namespace Loim
                         }
                     }
                 }
+                szint++;
                 Console.WriteLine("\n\tNyomjon egy ENTER-t a folytatáshoz!");
                 Console.ResetColor();
             }
@@ -403,7 +403,7 @@ namespace Loim
                     }
                     else
                     {
-                        Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
+                        Console.WriteLine("\tSajnálom, de rossz a válasz, így el kell búcsúznunk egymástól!");
                         System.Threading.Thread.Sleep(99);
                     }
                 }
@@ -606,8 +606,7 @@ namespace Loim
             while (!lehetsegesValaszok.Contains(valasz));
 
             if (k.helyesE(valasz) && valasz != 'M' && valasz != 'N')
-            {
-                szint++;
+            {              
                 for (int i = 0; i < 11; i++)
                 {
                     ClearLastLine();
@@ -636,6 +635,7 @@ namespace Loim
                 }
                 Console.WriteLine("\n\tNyomjon egy ENTER-t a folytatáshoz!");
                 Console.ResetColor();
+                szint++;
             }
             else if (!k.helyesE(valasz) && valasz != 'M' && valasz != 'N')
             {
@@ -654,7 +654,7 @@ namespace Loim
                     }
                     else
                     {
-                        Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
+                        Console.WriteLine("\tSajnálom, de rossz a válasz, így el kell búcsúznunk egymástól!");
                         System.Threading.Thread.Sleep(99);
                     }
                 }
@@ -811,9 +811,24 @@ namespace Loim
 
             if (sk.helyesE(tipp))
             {
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine();
-                Console.WriteLine("\tGratulálunk, Ön volt a leggyorsabb, így bekerült a játékba!");
+                for (int i = 0; i < 11; i++)
+                {
+                    ClearLastLine();
+
+                    if (i % 2 == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
+                        System.Threading.Thread.Sleep(99);                       
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
+                        System.Threading.Thread.Sleep(99);                        
+                    }
+                }
                 Console.Write("\n\tNyomjon egy ENTER-t a folytatáshoz!");
                 Console.ResetColor();
                 Console.ReadKey();
@@ -821,13 +836,29 @@ namespace Loim
             }
             else
             {
+                for (int i = 0; i < 11; i++)
+                {
+                    ClearLastLine();
+
+                    if (i % 2 == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        Console.BackgroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("\tSajnáljuk, de nem volt helyes a sorrend!");
+                        System.Threading.Thread.Sleep(99);
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine("\tSajnáljuk, de nem volt helyes a sorrend!");
+                        System.Threading.Thread.Sleep(99);
+                    }
+                }
                 Console.ForegroundColor = ConsoleColor.Green;
-
-                MessageBox.Show("Rossz válasz!");
-                Console.WriteLine();
                 Console.WriteLine("\tA helyes válasz ez lett volna: " + sk.HelyesSorrend);
-
                 Console.ResetColor();
+                Console.WriteLine("\n\tÍgy most nem került bele a játékba..");
+                
                 Console.ReadLine();
             }
         }
@@ -841,8 +872,8 @@ namespace Loim
 
             this.jatekIdo = Jatekos.getJatekIdo(DateTime.Now);           
 
-            Console.WriteLine("Sajnáljuk a játék végét ért! Ön {0} perc {1} másodpercet játszott!", jatekIdo / 60, jatekIdo % 60);
-
+            Console.WriteLine("\n\tSajnáljuk a játék végét ért! Ön {0} perc {1} másodpercet játszott!", jatekIdo / 60, jatekIdo % 60);
+            Console.WriteLine("\n\tNyomjon egy ENTER-t a kilépéshez!");
             ranglista();
             Console.ReadKey();
 
