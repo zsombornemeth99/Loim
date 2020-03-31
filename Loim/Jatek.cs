@@ -163,6 +163,9 @@ namespace Loim
             {
                 try
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("\n\tKérem adja meg a helyes választ: ");
+                    Console.ResetColor();
                     var bevitel = char.TryParse(Console.ReadLine(), out valasz);
                     while (!bevitel)
                     {
@@ -176,9 +179,9 @@ namespace Loim
                         MessageBox.Show("Hiba, érvénytelen karakter!");
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-
+                    Console.WriteLine(e);
                 }
                 if (valasz == 'K' && !Jatekos.KozonsegSegitseg)
                 {
@@ -268,17 +271,33 @@ namespace Loim
         }
         public void valaszEllnenorzesBetoltesnel()
         {
-            char valasz;
             string lehetsegesValaszok = "ABCD";
             string segitsegek = "KFT";
             string mentes = "M";
             do
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("\n\tKérem adja meg a helyes választ: ");
-                Console.ResetColor();
-                valasz = char.Parse(Console.ReadLine());
-                valasz = Char.ToUpper(valasz);
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("\n\tKérem adja meg a helyes választ: ");
+                    Console.ResetColor();
+                    var bevitel = char.TryParse(Console.ReadLine(), out valasz);
+                    while (!bevitel)
+                    {
+
+                        MessageBox.Show("Hiba, érvénytelen bevitel!");
+                        break;
+                    }
+                    this.valasz = Char.ToUpper(valasz);
+                    if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz) && bevitel)
+                    {
+                        MessageBox.Show("Hiba, érvénytelen karakter!");
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
 
                 if (valasz == 'K' && !Jatekos.KozonsegSegitseg)
                 {
@@ -314,10 +333,6 @@ namespace Loim
                     System.Threading.Thread.Sleep(1000);
                     Console.WriteLine("\tA játék mentésre került");
                     break;
-                }
-                if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
-                {
-                    MessageBox.Show("Érvénytelen karaktert adott meg!");
                 }
             }
             while (!lehetsegesValaszok.Contains(valasz));
