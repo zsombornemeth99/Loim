@@ -407,7 +407,6 @@ namespace Loim
                         System.Threading.Thread.Sleep(99);
                     }
                 }
-                Console.WriteLine("\n\tNyomjon egy ENTER-t a folytatáshoz!");
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\n\tA helyes válasz ez lett volna: " + ks.HelyesValasz);
@@ -870,7 +869,7 @@ namespace Loim
             Console.Clear();
             sorkerdes();
 
-            this.jatekIdo = Jatekos.getJatekIdo(DateTime.Now);           
+            this.jatekIdo = Jatekos.getJatekIdo(DateTime.Now);
 
             Console.WriteLine("\n\tSajnáljuk a játék végét ért! Ön {0} perc {1} másodpercet játszott!", jatekIdo / 60, jatekIdo % 60);
             Console.WriteLine("\n\tNyomjon egy ENTER-t a kilépéshez!");
