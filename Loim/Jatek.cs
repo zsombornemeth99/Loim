@@ -24,6 +24,7 @@ namespace Loim
         private int menuPont;
         private char valasz;
         private string tipp;
+        private bool bevitel;
 
         internal Jatekos Jatekos { get => jatekos; set => jatekos = value; }
        
@@ -172,14 +173,16 @@ namespace Loim
             {
                 try
                 {
+                    ClearLastLine();
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("\n\tKérem adja meg a helyes választ: ");
+                    Console.SetCursorPosition(0, Console.CursorTop-2);
+                    Console.Write("\n\n\tKérem adja meg a helyes választ: ");
                     Console.ResetColor();
-                    var bevitel = char.TryParse(Console.ReadLine(), out valasz);
+                    bevitel = char.TryParse(Console.ReadLine(), out valasz);
                     while (!bevitel)
                     {
 
-                        MessageBox.Show("Hiba, érvénytelen bevitel!");                      
+                        MessageBox.Show("Hiba, érvénytelen bevitel!");
                         break;
                     }
                     this.valasz = Char.ToUpper(valasz);
@@ -229,25 +232,57 @@ namespace Loim
                 }
                 if (valasz == 'N')
                 {
-                    switch (szint - 1)
+                    Console.WriteLine("\n\t-Gundel úr, szeretnék megállni!");
+                    Console.Write("\n\t-Biztos benne?(i/n)");
+                    char dontes = char.Parse(Console.ReadLine());
+                    if (dontes=='i')
                     {
-                        case 0: Console.WriteLine("\n\tAz ön nyereménye: 0 Ft"); break;
-                        case 1: Console.WriteLine("\n\tAz ön nyereménye: 10 000 Ft"); break;
-                        case 2: Console.WriteLine("\n\tAz ön nyereménye: 20 000 Ft"); break;
-                        case 3: Console.WriteLine("\n\tAz ön nyereménye: 50 000 Ft"); break;
-                        case 4: Console.WriteLine("\n\tAz ön nyereménye: 100 000 Ft"); break;
-                        case 5: Console.WriteLine("\n\tAz ön nyereménye: 250 000 Ft"); break;
-                        case 6: Console.WriteLine("\n\tAz ön nyereménye: 500 000 Ft"); break;
-                        case 7: Console.WriteLine("\n\tAz ön nyereménye: 750 000 Ft"); break;
-                        case 8: Console.WriteLine("\n\tAz ön nyereménye: 1 000 000 Ft"); break;
-                        case 9: Console.WriteLine("\n\tAz ön nyereménye: 1 500 000 Ft"); break;
-                        case 10: Console.WriteLine("\n\tAz ön nyereménye: 2 000 000 Ft"); break;
-                        case 11: Console.WriteLine("\n\tAz ön nyereménye: 5 000 000 Ft"); break;
-                        case 12: Console.WriteLine("\n\tAz ön nyereménye: 10 000 000 Ft"); break;
-                        case 13: Console.WriteLine("\n\tAz ön nyereménye: 15 000 000 Ft"); break;
-                        case 14: Console.WriteLine("\n\tAz ön nyereménye: 25 000 000 Ft"); break;
+                        switch (szint - 1)
+                        {
+                            case 0: Console.WriteLine("\n\tAz ön nyereménye: 0 Ft"); break;
+                            case 1: Console.WriteLine("\n\tAz ön nyereménye: 10 000 Ft"); break;
+                            case 2: Console.WriteLine("\n\tAz ön nyereménye: 20 000 Ft"); break;
+                            case 3: Console.WriteLine("\n\tAz ön nyereménye: 50 000 Ft"); break;
+                            case 4: Console.WriteLine("\n\tAz ön nyereménye: 100 000 Ft"); break;
+                            case 5: Console.WriteLine("\n\tAz ön nyereménye: 250 000 Ft"); break;
+                            case 6: Console.WriteLine("\n\tAz ön nyereménye: 500 000 Ft"); break;
+                            case 7: Console.WriteLine("\n\tAz ön nyereménye: 750 000 Ft"); break;
+                            case 8: Console.WriteLine("\n\tAz ön nyereménye: 1 000 000 Ft"); break;
+                            case 9: Console.WriteLine("\n\tAz ön nyereménye: 1 500 000 Ft"); break;
+                            case 10: Console.WriteLine("\n\tAz ön nyereménye: 2 000 000 Ft"); break;
+                            case 11: Console.WriteLine("\n\tAz ön nyereménye: 5 000 000 Ft"); break;
+                            case 12: Console.WriteLine("\n\tAz ön nyereménye: 10 000 000 Ft"); break;
+                            case 13: Console.WriteLine("\n\tAz ön nyereménye: 15 000 000 Ft"); break;
+                            case 14: Console.WriteLine("\n\tAz ön nyereménye: 25 000 000 Ft"); break;
+                        }
+                        break;
                     }
-                    break;
+                    else
+                    {
+                        try
+                        {
+                            ClearLastLine();
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.SetCursorPosition(0, Console.CursorTop - 2);
+                            Console.Write("\n\n\tKérem adja meg a helyes választ: ");
+                            Console.ResetColor();
+                            bevitel = char.TryParse(Console.ReadLine(), out valasz);
+                            while (!bevitel)
+                            {
+
+                                MessageBox.Show("Hiba, érvénytelen bevitel!");
+                                break;
+                            }
+                            this.valasz = Char.ToUpper(valasz);
+                            if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz) && bevitel)
+                            {
+                                MessageBox.Show("Hiba, érvénytelen karakter!");
+                            }
+                        }
+                        catch(Exception)
+                        { 
+                        }
+                    }
                 }
             }
             while (!lehetsegesValaszok.Contains(valasz));
@@ -317,8 +352,10 @@ namespace Loim
             {
                 try
                 {
+                    ClearLastLine();
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("\n\tKérem adja meg a helyes választ: ");
+                    Console.SetCursorPosition(0, Console.CursorTop - 2);
+                    Console.Write("\n\n\tKérem adja meg a helyes választ: ");
                     Console.ResetColor();
                     var bevitel = char.TryParse(Console.ReadLine(), out valasz);
                     while (!bevitel)
@@ -463,6 +500,9 @@ namespace Loim
             
             k = m.K;
             Console.Clear();
+            Console.WriteLine("Játék betöltése...");
+            System.Threading.Thread.Sleep(1000);
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("\t{0}. kérdés - Témakör: {1}", this.szint, k.getKerdesKategoria());
             Console.WriteLine();
@@ -526,14 +566,13 @@ namespace Loim
         }
 
         private void sorkerdes()
-        {            
+        {
+            sk = this.sorKerdesek.getVeletlenSorKerdes();
             do
-            {
-                
+            {               
                 try
                 {
                     Console.Clear();
-                    sk = this.sorKerdesek.getVeletlenSorKerdes();
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine("\tSorkérdés - Témakör: " + sk.getSorKerdesKategoria());
                     Console.WriteLine();
@@ -823,34 +862,37 @@ namespace Loim
             int negyedik = 100 - helyesValasz - masodik - harmadik;
 
             char c = k.HelyesValasz;
-            Console.WriteLine("A közönség a következőket tippelte:");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n\tA közönség a következőket tippelte:");
             switch (c)
             {
                 case 'A':
-                    Console.WriteLine("A - " + helyesValasz);
-                    Console.WriteLine("B - " + masodik);
-                    Console.WriteLine("C - " + harmadik);
-                    Console.WriteLine("D - " + negyedik);
-                    break;
-                case 'B':
-                    Console.WriteLine("A - " + masodik);
-                    Console.WriteLine("B - " + helyesValasz);
-                    Console.WriteLine("C - " + harmadik);
-                    Console.WriteLine("D - " + negyedik);
-                    break;
-                case 'C':
-                    Console.WriteLine("A - " + masodik);
-                    Console.WriteLine("B - " + harmadik);
-                    Console.WriteLine("C - " + helyesValasz);
-                    Console.WriteLine("D - " + negyedik);
-                    break;
-                case 'D':
-                    Console.WriteLine("A - " + masodik);
-                    Console.WriteLine("B - " + harmadik);
-                    Console.WriteLine("C - " + negyedik);
-                    Console.WriteLine("D - " + helyesValasz);
+                    Console.WriteLine("\t\tA - " + helyesValasz);
+                    Console.WriteLine("\t\tB - " + masodik);
+                    Console.WriteLine("\t\tC - " + harmadik);
+                    Console.WriteLine("\t\tD - " + negyedik);
+                    break;             
+                case 'B':              
+                    Console.WriteLine("\t\tA - " + masodik);
+                    Console.WriteLine("\t\tB - " + helyesValasz);
+                    Console.WriteLine("\t\tC - " + harmadik);
+                    Console.WriteLine("\t\tD - " + negyedik);
+                    break;            
+                case 'C':              
+                    Console.WriteLine("\t\tA - " + masodik);
+                    Console.WriteLine("\t\tB - " + harmadik);
+                    Console.WriteLine("\t\tC - " + helyesValasz);
+                    Console.WriteLine("\t\tD - " + negyedik);
+                    break;             
+                case 'D':              
+                    Console.WriteLine("\t\tA - " + masodik);
+                    Console.WriteLine("\t\tB - " + harmadik);
+                    Console.WriteLine("\t\tC - " + negyedik);
+                    Console.WriteLine("\t\tD - " + helyesValasz);
                     break;
             }
+            Console.ResetColor();
+            Console.WriteLine("\n");
         }
 
         private void felezoSegitseg(Kerdes k)
@@ -863,6 +905,7 @@ namespace Loim
             int szam = Program.rnd.Next(0, 3);
 
             char c = k.HelyesValasz;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             switch (c)
             {
                 case 'A':
@@ -958,6 +1001,8 @@ namespace Loim
                     }
                     break;
             }
+            Console.ResetColor();
+            Console.WriteLine("|n");
         }
 
         private void telefonosSegitseg(Kerdes k)
@@ -965,7 +1010,7 @@ namespace Loim
             char c = k.HelyesValasz;
 
             double szam=Program.rnd.Next(0,101);
-
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             switch (c)
             {
                 case 'A':
@@ -1041,12 +1086,19 @@ namespace Loim
                     }
                     break;
             }
+            Console.ResetColor();
+            Console.WriteLine("\n");
         }
 
         private void osszegek()
         {
             Console.Clear();
-            Console.WriteLine("Nyeremény összegek:");
+            Console.WriteLine();
+
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            string s = "Nyeremény összegek:";
+            Console.SetCursorPosition((Console.WindowWidth - s.Length) / 2, Console.CursorTop);
+            Console.WriteLine(s);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\n\t1  - {0,-8} Ft",10000);
             Console.WriteLine("\t2  - {0,-8} Ft", 20000);
@@ -1111,8 +1163,15 @@ namespace Loim
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("\n\tTovábbi lehetőségek:");
             Console.WriteLine("\t\tM - Mentés");
-            Console.WriteLine("\t\tN - Megállás, nyeremény elvitele");
+            Console.WriteLine("\t\tN - Megállás, nyeremény elvitele\n");
             Console.ResetColor();
+        }
+
+        public static void ClearLastLine()
+        {
+            Console.SetCursorPosition(0, Console.CursorTop - 1);
+            Console.Write(new string(' ', Console.BufferWidth));
+            Console.SetCursorPosition(0, Console.CursorTop - 1);
         }
     }
 }
