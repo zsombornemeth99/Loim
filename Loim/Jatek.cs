@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
+using System.Timers;
+using System.Threading;
 
 namespace Loim
 {
@@ -151,15 +153,15 @@ namespace Loim
             Console.WriteLine("\tElérhető segítségek:");
             if (!Jatekos.KozonsegSegitseg)
             {
-                Console.WriteLine("\t\tK - Közönség segítsége");
+                Console.WriteLine("\t\tK - Közönség segítség");
             }
             if (!Jatekos.FelezoSegitseg)
             {
-                Console.WriteLine("\t\tF - Számítógép segítsége");
+                Console.WriteLine("\t\tF - Felező segítség");
             }
             if (!Jatekos.TelefonosSegitseg)
             {
-                Console.WriteLine("\t\tT - Telefon segítsége");
+                Console.WriteLine("\t\tT - Telefonos segítség");
             }
             Console.ResetColor();
         }
@@ -197,6 +199,15 @@ namespace Loim
                 }
                 if (valasz == 'K' && !Jatekos.KozonsegSegitseg)
                 {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("\n\t-Szeretném használni a közönség segítségét, Gundel úr!");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("\t-Rendben,{0}! Most kérném a közönséget,\n" +
+                        "\thogy vegyék elő nyomógombjaikat és nyomját meg a szerintük helyes választ!",this.nev);
+                    System.Threading.Thread.Sleep(2000);
+                    Console.WriteLine("\t-Köszönöm!");
+                    Console.ResetColor();
+                    System.Threading.Thread.Sleep(3000);
                     kozonsegSegitseg(ks);
                     Jatekos.kozonsegSegitsegetHasznal();
                 }
@@ -206,6 +217,14 @@ namespace Loim
                 }
                 if (valasz == 'F' && !Jatekos.FelezoSegitseg)
                 {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("\n\t-Szeretném használni a felező segítséget, Gundel úr!");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("\t-Rendben,{0}! Rendben a gép máris elvesz kettőt.", this.nev);
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("\t-Köszönöm!");
+                    Console.ResetColor();
+                    System.Threading.Thread.Sleep(2000);
                     felezoSegitseg(ks);
                     Jatekos.felezoSegitsegetHasznal();
                 }
@@ -215,7 +234,55 @@ namespace Loim
                 }
                 if (valasz == 'T' && !Jatekos.TelefonosSegitseg)
                 {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("\t-Szeretném használni a telefonos segítségét, Gundel úr!");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.Write("\t-Rendben,{0}! Kit hívjunk fel? ",this.nev);
+                    string kit = Console.ReadLine();
+                    System.Threading.Thread.Sleep(10);
+                    Console.WriteLine("\tŐ úgy gondolom nagyon jó ebben a témakörben!");
+                    System.Threading.Thread.Sleep(2000);
+                    Console.WriteLine("\t-Már tárcsázzuk is {0}-t. Halló! Jó napot kívánok Gundel-Takács Gábor vagyok\n" +
+                        "\ta Legyen Ön is Milliomosból és azért keresem, mert itt ül velem szemben {1}, és egy kérdésben\n" +
+                        "\tkérné a segítségét. A 30mp indul MOST!", kit, this.nev);
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("\t-Szia! Ez lenne gyorsan a kérdésem:");
+                    System.Threading.Thread.Sleep(2000);
+                    Console.WriteLine("\t-"+ks.Kerdes);
+                    System.Threading.Thread.Sleep(2000);
+                    Console.WriteLine("\tA válaszok a következők:\n"+ks.getKerdesValaszok());
+                    int rand = Program.rnd.Next(0, 3);
+                    if (rand==0)
+                    {
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Jó kérdés, de örülök, hogy engem hívtál, mert úgy érzem tudom a választ!");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Szuper! Nagyon örülök mi lenne az?");
+                    }
+                    else if (rand==1)
+                    {
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Nem könnyü, de van egy sejtásem!");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Rendben! Mi lenne az?");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Nem vagyok 100%-ig biztos, de");
+                    }
+                    else if((rand==2 || rand==1) && szint>10)
+                    {
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Nagyon nehéz kérdés! Egyenlőre tanácstalan vagyok!");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Mi az amit kizárnál?");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Hát, 2-őt tuti, a maradékon vacilálok! Talán meg lesz ez");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Gyorsan mondd, mert lejár az idő!");
+                    }
+                    Console.ResetColor();
                     telefonosSegitseg(ks);
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("-Köszönöm a segítséget!");
                     Jatekos.telefonosSegitsegetHasznal();
                 }
                 else if (valasz == 'T' && Jatekos.TelefonosSegitseg)
@@ -290,19 +357,57 @@ namespace Loim
             if (ks.helyesE(valasz) && valasz != 'M' && valasz != 'N')
             {
                 szint++;
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
-                if (szint == 15)
+                for (int i = 0; i < 11; i++)
                 {
-                    Console.WriteLine("\tGratulálunk megnyerte a főnyereményt!!");
+                    ClearLastLine();
+
+                    if (i%2==0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
+                        System.Threading.Thread.Sleep(99);
+                        if (szint == 15)
+                        {
+                            Console.WriteLine("\tGratulálunk megnyerte a főnyereményt!!");
+                        }
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
+                        System.Threading.Thread.Sleep(99);
+                        if (szint == 15)
+                        {
+                            Console.WriteLine("\tGratulálunk megnyerte a főnyereményt!!");
+                        }
+                    }
                 }
+                Console.WriteLine("\n\tNyomjon egy ENTER-t a folytatáshoz!");
                 Console.ResetColor();
             }
             else if (!ks.helyesE(valasz) && valasz != 'M' && valasz != 'N')
             {
                 helyesE = false;
-                Console.ForegroundColor = ConsoleColor.Red;
-                MessageBox.Show("\tSajnáljuk, de rossz választ adott!");
+                for (int i = 0; i < 11; i++)
+                {
+                    ClearLastLine();
+
+                    if (i % 2 == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("\tSajnálom, de rossz a válasz, így el kell búcsúznunk egymástól!");
+                        System.Threading.Thread.Sleep(99);
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
+                        System.Threading.Thread.Sleep(99);
+                    }
+                }
+                Console.WriteLine("\n\tNyomjon egy ENTER-t a folytatáshoz!");
                 Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\n\tA helyes válasz ez lett volna: " + ks.HelyesValasz);
@@ -377,6 +482,15 @@ namespace Loim
 
                 if (valasz == 'K' && !Jatekos.KozonsegSegitseg)
                 {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("\n\t-Szeretném használni a közönség segítségét, Gundel úr!");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("\t-Rendben,{0}! Most kérném a közönséget,\n" +
+                        "\thogy vegyék elő nyomógombjaikat és nyomját meg a szerintük helyes választ!", this.nev);
+                    System.Threading.Thread.Sleep(2000);
+                    Console.WriteLine("\t-Köszönöm!");
+                    Console.ResetColor();
+                    System.Threading.Thread.Sleep(3000);
                     kozonsegSegitseg(k);
                     Jatekos.kozonsegSegitsegetHasznal();
                 }
@@ -386,6 +500,14 @@ namespace Loim
                 }
                 if (valasz == 'F' && !Jatekos.FelezoSegitseg)
                 {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("\n\t-Szeretném használni a felező segítséget, Gundel úr!");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("\t-Rendben,{0}! Rendben a gép máris elvesz kettőt.", this.nev);
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("\t-Köszönöm!");
+                    Console.ResetColor();
+                    System.Threading.Thread.Sleep(2000);
                     felezoSegitseg(k);
                     Jatekos.felezoSegitsegetHasznal();
                 }
@@ -395,7 +517,55 @@ namespace Loim
                 }
                 if (valasz == 'T' && !Jatekos.TelefonosSegitseg)
                 {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("\t-Szeretném használni a telefonos segítségét, Gundel úr!");
+                    System.Threading.Thread.Sleep(1000);
+                    Console.Write("\t-Rendben,{0}! Kit hívjunk fel? ", this.nev);
+                    string kit = Console.ReadLine();
+                    System.Threading.Thread.Sleep(10);
+                    Console.WriteLine("\tŐ úgy gondolom nagyon jó ebben a témakörben!");
+                    System.Threading.Thread.Sleep(2000);
+                    Console.WriteLine("\t-Már tárcsázzuk is {0}-t. Halló! Jó napot kívánok Gundel-Takács Gábor vagyok\n" +
+                        "\ta Legyen Ön is Milliomosból és azért keresem, mert itt ül velem szemben {1}, és egy kérdésben\n" +
+                        "\tkérné a segítségét. A 30mp indul MOST!", kit, this.nev);
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("\t-Szia! Ez lenne gyorsan a kérdésem:");
+                    System.Threading.Thread.Sleep(2000);
+                    Console.WriteLine("\t-" + k.Kerdes);
+                    System.Threading.Thread.Sleep(2000);
+                    Console.WriteLine("\tA válaszok a következők:\n" + ks.getKerdesValaszok());
+                    int rand = Program.rnd.Next(0, 3);
+                    if (rand == 0)
+                    {
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Jó kérdés, de örülök, hogy engem hívtál, mert úgy érzem tudom a választ!");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Szuper! Nagyon örülök mi lenne az?");
+                    }
+                    else if (rand == 1)
+                    {
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Nem könnyü, de van egy sejtásem!");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Rendben! Mi lenne az?");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Nem vagyok 100%-ig biztos, de");
+                    }
+                    else if ((rand == 2 || rand == 1) && szint > 10)
+                    {
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Nagyon nehéz kérdés! Egyenlőre tanácstalan vagyok!");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Mi az amit kizárnál?");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Hát, 2-őt tuti, a maradékon vacilálok! Talán meg lesz ez");
+                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine("\t-Gyorsan mondd, mert lejár az idő!");
+                    }
+                    Console.ResetColor();
                     telefonosSegitseg(k);
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("-Köszönöm a segítséget!");
                     Jatekos.telefonosSegitsegetHasznal();
                 }
                 else if (valasz == 'T' && Jatekos.TelefonosSegitseg)
@@ -438,21 +608,57 @@ namespace Loim
             if (k.helyesE(valasz) && valasz != 'M' && valasz != 'N')
             {
                 szint++;
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
-                if (szint == 15)
+                for (int i = 0; i < 11; i++)
                 {
-                    Console.WriteLine("\tGratulálunk megnyerte a főnyereményt!!");
+                    ClearLastLine();
+
+                    if (i % 2 == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.BackgroundColor = ConsoleColor.DarkGreen;
+                        Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
+                        System.Threading.Thread.Sleep(99);
+                        if (szint == 15)
+                        {
+                            Console.WriteLine("\tGratulálunk megnyerte a főnyereményt!!");
+                        }
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
+                        System.Threading.Thread.Sleep(99);
+                        if (szint == 15)
+                        {
+                            Console.WriteLine("\tGratulálunk megnyerte a főnyereményt!!");
+                        }
+                    }
                 }
+                Console.WriteLine("\n\tNyomjon egy ENTER-t a folytatáshoz!");
                 Console.ResetColor();
             }
             else if (!k.helyesE(valasz) && valasz != 'M' && valasz != 'N')
             {
                 helyesE = false;
-                Console.ForegroundColor = ConsoleColor.Red;
-                MessageBox.Show("\tSajnáljuk, de rossz választ adott!");
-                Console.ResetColor();
-                Console.ForegroundColor = ConsoleColor.Green;
+                for (int i = 0; i < 11; i++)
+                {
+                    ClearLastLine();
+
+                    if (i % 2 == 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Black;
+                        Console.BackgroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("\tSajnálom, de rossz a válasz, így el kell búcsúznunk egymástól!");
+                        System.Threading.Thread.Sleep(99);
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine("\tGratulálunk, sikeresen válaszolt!");
+                        System.Threading.Thread.Sleep(99);
+                    }
+                }
+                    Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\n\tA helyes válasz ez lett volna: " + k.HelyesValasz);
                 switch (szint)
                 {
@@ -607,7 +813,7 @@ namespace Loim
             {
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine();
-                Console.WriteLine("\tGratulálunk, helyes a válasz!");
+                Console.WriteLine("\tGratulálunk, Ön volt a leggyorsabb, így bekerült a játékba!");
                 Console.Write("\n\tNyomjon egy ENTER-t a folytatáshoz!");
                 Console.ResetColor();
                 Console.ReadKey();
@@ -863,7 +1069,7 @@ namespace Loim
 
             char c = k.HelyesValasz;
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("\n\tA közönség a következőket tippelte:");
+            Console.WriteLine("\n\tA közönség szerint a helyes válasz::");
             switch (c)
             {
                 case 'A':
@@ -906,27 +1112,28 @@ namespace Loim
 
             char c = k.HelyesValasz;
             Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n\tA gép elvett kettőt: ");
             switch (c)
             {
                 case 'A':
                     if (szam == 0)
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                        
+                        
                         Console.WriteLine("\n\tA - " + valaszA);
                         Console.WriteLine("\n\tB - " + valaszB);
                     }
                     else if (szam == 1)
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                        
+                        
                         Console.WriteLine("\n\tA - " + valaszA);
                         Console.WriteLine("\n\tC - " + valaszC);
                     }
                     else
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                        
+                       
                         Console.WriteLine("\n\tA - " + valaszA);
                         Console.WriteLine("\n\tD - " + valaszD);
                     }
@@ -934,22 +1141,22 @@ namespace Loim
                 case 'B':
                     if (szam == 0)
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                        
+                       
                         Console.WriteLine("\n\tA - " + valaszA);
                         Console.WriteLine("\n\tB - " + valaszB);
                     }
                     else if (szam == 1)
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                        
+                       
                         Console.WriteLine("\n\tB - " + valaszB);
                         Console.WriteLine("\n\tC - " + valaszC);
                     }
                     else
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                        
+                        
                         Console.WriteLine("\n\tB - " + valaszB);
                         Console.WriteLine("\n\tD - " + valaszD);
                     }
@@ -957,22 +1164,22 @@ namespace Loim
                 case 'C':
                     if (szam == 0)
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                       
+                        
                         Console.WriteLine("\n\tB - " + valaszB);
                         Console.WriteLine("\n\tC - " + valaszC);
                     }
                     else if (szam == 1)
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                        
+                        
                         Console.WriteLine("\n\tA - " + valaszA);
                         Console.WriteLine("\n\tC - " + valaszC);
                     }
                     else
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                        
+                     
                         Console.WriteLine("\n\tC - " + valaszC);
                         Console.WriteLine("\n\tD - " + valaszD);
                     }
@@ -980,29 +1187,29 @@ namespace Loim
                 case 'D':
                     if (szam == 0)
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                        
+                        
                         Console.WriteLine("\n\tA - " + valaszA);
                         Console.WriteLine("\n\tD - " + valaszD);
                     }
                     else if (szam == 1)
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                        
+                        
                         Console.WriteLine("\n\tB - " + valaszB);
                         Console.WriteLine("\n\tD - " + valaszD);
                     }
                     else
                     {
-                        Console.Clear();
-                        Console.WriteLine(k.Kerdes);
+                        
+                        
                         Console.WriteLine("\n\tC - " + valaszC);
                         Console.WriteLine("\n\tD - " + valaszD);
                     }
                     break;
             }
             Console.ResetColor();
-            Console.WriteLine("|n");
+            Console.WriteLine("\n");
         }
 
         private void telefonosSegitseg(Kerdes k)
@@ -1011,78 +1218,79 @@ namespace Loim
 
             double szam=Program.rnd.Next(0,101);
             Console.ForegroundColor = ConsoleColor.DarkGray;
+
             switch (c)
             {
                 case 'A':
                     if (szam>30)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: A");
+                        Console.WriteLine("\tSzerintem a helyes válasz: A");
                     }
                     if(szam<10)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: B");
+                        Console.WriteLine("\tSzerintem a helyes válasz: B");
                     }
                     if (szam > 10 && szam<20)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: C");
+                        Console.WriteLine("\tSzerintem a helyes válasz: C");
                     }
                     if (szam > 20 && szam < 30)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: D");
+                        Console.WriteLine("\tSzerintem a helyes válasz: D");
                     }                                    
                     break;
                 case 'B':
                     if (szam > 30)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: B");
+                        Console.WriteLine("\tSzerintem a helyes válasz: B");
                     }
                     if (szam < 10)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: A");
+                        Console.WriteLine("\tSzerintem a helyes válasz: A");
                     }
                     if (szam > 10 && szam < 20)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: C");
+                        Console.WriteLine("\tSzerintem a helyes válasz: C");
                     }
                     if (szam > 20 && szam < 30)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: D");
+                        Console.WriteLine("\tSzerintem a helyes válasz: D");
                     }
                     break;
                 case 'C':
                     if (szam > 30)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: C");
+                        Console.WriteLine("\tSzerintem a helyes válasz: C");
                     }
                     if (szam < 10)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: B");
+                        Console.WriteLine("\tSzerintem a helyes válasz: B");
                     }
                     if (szam > 10 && szam < 20)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: A");
+                        Console.WriteLine("\tSzerintem a helyes válasz: A");
                     }
                     if (szam > 20 && szam < 30)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: D");
+                        Console.WriteLine("\tSzerintem a helyes válasz: D");
                     }
                     break;
                 case 'D':
                     if (szam > 0.30)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: D");
+                        Console.WriteLine("\tSzerintem a helyes válasz: D");
                     }
                     if (szam < 0.10)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: B");
+                        Console.WriteLine("\tSzerintem a helyes válasz: B");
                     }
                     if (szam > 0.10 && szam < 0.20)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: C");
+                        Console.WriteLine("\tSzerintem a helyes válasz: C");
                     }
                     if (szam > 0.20 && szam < 0.30)
                     {
-                        Console.WriteLine("Szerintem a helyes válasz: A");
+                        Console.WriteLine("\tSzerintem a helyes válasz: A");
                     }
                     break;
             }
