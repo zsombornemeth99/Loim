@@ -159,7 +159,7 @@ namespace Loim
         {
             string lehetsegesValaszok = "ABCD";
             string segitsegek = "KFT";
-            string mentes = "M";
+            string mentes = "MN";
             do
             {
                 try
@@ -219,11 +219,32 @@ namespace Loim
                     Console.WriteLine("\tA játék mentésre került");
                     break;
                 }
-                
+                if (valasz == 'N')
+                {
+                    switch (szint - 1)
+                    {
+                        case 0: Console.WriteLine("\n\tAz ön nyereménye: 0 Ft"); break;
+                        case 1: Console.WriteLine("\n\tAz ön nyereménye: 10 000 Ft"); break;
+                        case 2: Console.WriteLine("\n\tAz ön nyereménye: 20 000 Ft"); break;
+                        case 3: Console.WriteLine("\n\tAz ön nyereménye: 50 000 Ft"); break;
+                        case 4: Console.WriteLine("\n\tAz ön nyereménye: 100 000 Ft"); break;
+                        case 5: Console.WriteLine("\n\tAz ön nyereménye: 250 000 Ft"); break;
+                        case 6: Console.WriteLine("\n\tAz ön nyereménye: 500 000 Ft"); break;
+                        case 7: Console.WriteLine("\n\tAz ön nyereménye: 750 000 Ft"); break;
+                        case 8: Console.WriteLine("\n\tAz ön nyereménye: 1 000 000 Ft"); break;
+                        case 9: Console.WriteLine("\n\tAz ön nyereménye: 1 500 000 Ft"); break;
+                        case 10: Console.WriteLine("\n\tAz ön nyereménye: 2 000 000 Ft"); break;
+                        case 11: Console.WriteLine("\n\tAz ön nyereménye: 5 000 000 Ft"); break;
+                        case 12: Console.WriteLine("\n\tAz ön nyereménye: 10 000 000 Ft"); break;
+                        case 13: Console.WriteLine("\n\tAz ön nyereménye: 15 000 000 Ft"); break;
+                        case 14: Console.WriteLine("\n\tAz ön nyereménye: 25 000 000 Ft"); break;
+                    }
+                    break;
+                }
             }
             while (!lehetsegesValaszok.Contains(valasz));
 
-            if (ks.helyesE(valasz) && valasz != 'M')
+            if (ks.helyesE(valasz) && valasz != 'M' && valasz != 'N')
             {
                 szint++;
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -234,7 +255,7 @@ namespace Loim
                 }
                 Console.ResetColor();
             }
-            else if (!ks.helyesE(valasz) && valasz != 'M')
+            else if (!ks.helyesE(valasz) && valasz != 'M' && valasz != 'N')
             {
                 helyesE = false;
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -268,8 +289,17 @@ namespace Loim
                 Console.ReadKey();
                 Environment.Exit(0);
             }
+            else if (valasz == 'N')
+            {
+                Console.WriteLine("\n\tNyomjon egy ENTER-t a kilépéshez!");
+                this.jatekIdo = Jatekos.getJatekIdo(DateTime.Now);
+                ranglista();
+                Console.ReadKey();
+                Jatek j = new Jatek();
+            }
             Console.ReadKey();
         }
+
         public void valaszEllnenorzesBetoltesnel()
         {
             string lehetsegesValaszok = "ABCD";
@@ -335,10 +365,32 @@ namespace Loim
                     Console.WriteLine("\tA játék mentésre került");
                     break;
                 }
+                if (valasz == 'N')
+                {
+                    switch (szint - 1)
+                    {
+                        case 0: Console.WriteLine("\n\tAz ön nyereménye: 0 Ft"); break;
+                        case 1: Console.WriteLine("\n\tAz ön nyereménye: 10 000 Ft"); break;
+                        case 2: Console.WriteLine("\n\tAz ön nyereménye: 20 000 Ft"); break;
+                        case 3: Console.WriteLine("\n\tAz ön nyereménye: 50 000 Ft"); break;
+                        case 4: Console.WriteLine("\n\tAz ön nyereménye: 100 000 Ft"); break;
+                        case 5: Console.WriteLine("\n\tAz ön nyereménye: 250 000 Ft"); break;
+                        case 6: Console.WriteLine("\n\tAz ön nyereménye: 500 000 Ft"); break;
+                        case 7: Console.WriteLine("\n\tAz ön nyereménye: 750 000 Ft"); break;
+                        case 8: Console.WriteLine("\n\tAz ön nyereménye: 1 000 000 Ft"); break;
+                        case 9: Console.WriteLine("\n\tAz ön nyereménye: 1 500 000 Ft"); break;
+                        case 10: Console.WriteLine("\n\tAz ön nyereménye: 2 000 000 Ft"); break;
+                        case 11: Console.WriteLine("\n\tAz ön nyereménye: 5 000 000 Ft"); break;
+                        case 12: Console.WriteLine("\n\tAz ön nyereménye: 10 000 000 Ft"); break;
+                        case 13: Console.WriteLine("\n\tAz ön nyereménye: 15 000 000 Ft"); break;
+                        case 14: Console.WriteLine("\n\tAz ön nyereménye: 25 000 000 Ft"); break;
+                    }
+                    break;
+                }
             }
             while (!lehetsegesValaszok.Contains(valasz));
 
-            if (k.helyesE(valasz) && valasz != 'M')
+            if (k.helyesE(valasz) && valasz != 'M' && valasz != 'N')
             {
                 szint++;
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -349,7 +401,7 @@ namespace Loim
                 }
                 Console.ResetColor();
             }
-            else if (!k.helyesE(valasz) && valasz != 'M')
+            else if (!k.helyesE(valasz) && valasz != 'M' && valasz != 'N')
             {
                 helyesE = false;
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -382,6 +434,14 @@ namespace Loim
                 Console.WriteLine("\n\tNyomjon egy ENTER-t a kilépéshez!");
                 Console.ReadKey();
                 Environment.Exit(0);
+            }
+            else if (valasz == 'N')
+            {
+                Console.WriteLine("\n\tNyomjon egy ENTER-t a kilépéshez!");
+                this.jatekIdo = Jatekos.getJatekIdo(DateTime.Now);
+                ranglista();
+                Console.ReadKey();
+                Jatek j = new Jatek();
             }
             Console.ReadKey();
         }
