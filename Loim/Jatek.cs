@@ -156,18 +156,30 @@ namespace Loim
 
         private void valaszEllnenorzes()
         {
-            char valasz;
             string lehetsegesValaszok = "ABCD";
             string segitsegek = "KFT";
             string mentes = "M";
             do
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("\n\tKérem adja meg a helyes választ: ");
-                Console.ResetColor();
-                valasz = char.Parse(Console.ReadLine());
-                valasz = Char.ToUpper(valasz);
+                try
+                {
+                    var bevitel = char.TryParse(Console.ReadLine(), out valasz);
+                    while (!bevitel)
+                    {
 
+                        MessageBox.Show("Hiba, érvénytelen bevitel!");                      
+                        break;
+                    }
+                    this.valasz = Char.ToUpper(valasz);
+                    if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz) && bevitel)
+                    {
+                        MessageBox.Show("Hiba, érvénytelen karakter!");
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
                 if (valasz == 'K' && !Jatekos.KozonsegSegitseg)
                 {
                     kozonsegSegitseg(ks);
@@ -203,11 +215,7 @@ namespace Loim
                     Console.WriteLine("\tA játék mentésre került");
                     break;
                 }
-                if (!lehetsegesValaszok.Contains(valasz) && !segitsegek.Contains(valasz) && !mentes.Contains(valasz))
-                {
-                    MessageBox.Show("Érvénytelen karaktert adott meg!");
-                    
-                }
+                
             }
             while (!lehetsegesValaszok.Contains(valasz));
 
