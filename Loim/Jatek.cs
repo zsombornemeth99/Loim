@@ -360,7 +360,7 @@ namespace Loim
                 Console.Write("\n\tMegjelöljük a következő választ: ");
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine(ks.ValaszB);
+                Console.WriteLine(ks.ValaszA);
                 Console.ResetColor();
                 System.Threading.Thread.Sleep(3000);
             }
@@ -657,7 +657,7 @@ namespace Loim
                 Console.Write("\n\tMegjelöljük a következő választ: ");
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine(k.ValaszB);
+                Console.WriteLine(k.ValaszA);
                 Console.ResetColor();
                 System.Threading.Thread.Sleep(3000);
             }
